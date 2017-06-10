@@ -3,11 +3,12 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 A seq method supporting custom-scaled plot axes.
+}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-seq.function(scalefun, from, to, length.out, digits = NULL)
+\S3method{seq}{function}(scalefun, from, to, length.out, digits = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,6 +27,7 @@ seq.function(scalefun, from, to, length.out, digits = NULL)
   \item{digits}{
 %%     ~~Describe \code{digits} here~~
 }
+  \item{\dots}{Unused; included for S3 generic/method consistency.}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

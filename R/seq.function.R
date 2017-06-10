@@ -1,5 +1,5 @@
 seq.function <-
-function(scalefun, from, to, length.out, digits=NULL){
+function(scalefun, from, to, length.out, digits=NULL, ...){
   x <- seq(from=scalefun(from), to=scalefun(to), length.out=length.out)
   y <- numeric(length.out)
   # Handle limiting case where from==to, to avert a uniroot error
