@@ -1,9 +1,19 @@
 Package: DTAT
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
-Date: 2017-06-03
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Title: A new dose-finding methodology: Dose Titration Algorithm Tuning
+Version: 0.1-1
+Date: 2017-06-10
+Authors@R: person("David C.", "Norris"
+                 , role = c("aut", "cre")
+                 , email = "david@precisionmethods.guru"
+                 )
+Maintainer: david@precisionmethods.guru
+Depends: R (>= 3.4.0), pomp (>= 1.12)
+Suggests: rms, latticeExtra
+Description: Early versions of this package are intended primarily to ensure the
+             reproducibility of my research on Dose Titration Algorithm Tuning.
+Description: A (one paragraph) description of what
+  the package does and why it may be useful.
+License: GPL (>= 2)
+URL: https://osf.io/5479p/
+License: CC0 1.0
