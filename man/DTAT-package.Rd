@@ -21,14 +21,10 @@ The DESCRIPTION file:
 Maintainer: \packageMaintainer{DTAT}
 }
 \references{
-~~ Literature or other references for background information ~~
+Norris DC. Dose Titration Algorithm Tuning (DTAT) should supersede 'the' Maximum Tolerated Dose (MTD) in oncology dose-finding trials. F1000Research. 2017;6:112. doi:10.12688/f1000research.10624.2.
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation directory ~~
-\keyword{ package }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+\code{\link[pomp:pomp-package]{pomp}}
 }
 \examples{
-~~ simple examples of the most important functions ~~
 }

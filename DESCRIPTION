@@ -7,13 +7,13 @@ Authors@R: person("David C.", "Norris"
                  , role = c("aut", "cre")
                  , email = "david@precisionmethods.guru"
                  )
-Maintainer: david@precisionmethods.guru
+Maintainer: David C. Norris <david@precisionmethods.guru>
 Depends: R (>= 3.4.0), pomp (>= 1.12)
-Suggests: rms, latticeExtra
+Suggests: rms, tidyr, latticeExtra, RColorBrewer
 Description: Early versions of this package are intended primarily to ensure the
              reproducibility of my research on Dose Titration Algorithm Tuning.
 Description: A (one paragraph) description of what
   the package does and why it may be useful.
 License: GPL (>= 2)
 URL: https://osf.io/5479p/
-License: CC0 1.0
+License: MIT + file LICENSE
