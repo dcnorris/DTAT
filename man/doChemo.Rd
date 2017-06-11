@@ -8,7 +8,8 @@ Perform Dose Titration Algorithm Tuning (DTAT)
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-doChemo(draw.days = NULL, Tcyc = 3 * 7 * 24, Ncycles = 10, doserange = c(50, 500), adapt.dosing = c("Newton"), omega = NA, slope1 = NA, slopeU = NA)
+doChemo(draw.days = NULL, Tcyc = 3 * 7 * 24, Ncycles = 10,
+        doserange = c(50, 500), adapt.dosing = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,15 +27,6 @@ doChemo(draw.days = NULL, Tcyc = 3 * 7 * 24, Ncycles = 10, doserange = c(50, 500
 }
   \item{adapt.dosing}{
 %%     ~~Describe \code{adapt.dosing} here~~
-}
-  \item{omega}{
-%%     ~~Describe \code{omega} here~~
-}
-  \item{slope1}{
-%%     ~~Describe \code{slope1} here~~
-}
-  \item{slopeU}{
-%%     ~~Describe \code{slopeU} here~~
 }
 }
 \details{
@@ -54,7 +46,10 @@ doChemo(draw.days = NULL, Tcyc = 3 * 7 * 24, Ncycles = 10, doserange = c(50, 500
 %%  ~~who you are~~
 }
 \note{
-%%  ~~further notes~~
+TODO: Once I've implemented several nontrivial dosing algorithms, I should
+      consider whether the 'doserange' case ought to be handled by a special
+      non-adaptive DTA.
+
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
