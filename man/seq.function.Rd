@@ -5,7 +5,8 @@
 A seq method supporting custom-scaled plot axes.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+This provides a \code{seq} method for class \code{function}, supporting
+a natural axis scaling idiom.
 }
 \usage{
 \S3method{seq}{function}(scalefun, from, to, length.out, digits = NULL, ...)
@@ -55,26 +56,9 @@ A seq method supporting custom-scaled plot axes.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (scalefun, from, to, length.out, digits = NULL) 
-{
-    x <- seq(from = scalefun(from), to = scalefun(to), length.out = length.out)
-    y <- numeric(length.out)
-    if (from == to) {
-        y1 <- uniroot(function(y) scaled(y) - x[1], c(from - 
-            1, from + 1))$root
-        return(rep(y1, length.out))
-    }
-    for (i in seq(length(y))) y[i] <- uniroot(function(y) scaled(y) - 
-        x[i], sort(c(from, to)))$root
-    if (!is.null(digits)) 
-        y <- round(y, digits = digits)
-    y
-  }
+# Provide evenly-spaced length-6 sequence from 100 to 1000,
+# evenly spaced on a fourth-root scale:
+seq(function(dose, a=4.0) dose^(1/a), from=100, to=1000, length.out=6, digits=0)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
