@@ -1,4 +1,4 @@
 importFrom("stats","time","uniroot")
 import("pomp")
-export(seq.function, scaled, paramset, doChemo)
+export(seq.function, scaled, paramset, doChemo, newton.raphson, Onoue.Friberg)
 S3method(seq,"function")

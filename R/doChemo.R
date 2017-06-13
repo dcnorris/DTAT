@@ -35,7 +35,7 @@ function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10, doserange=c(50,500),
       traj <- trajectory(pkpd, params=params, as.data.frame=TRUE)
       trajic[[id]][[cycle]] <<- traj
       to.add <- data.frame(id=rep(id,length(hourly))
-                           , time=traj$time[hourly]+(cycle-1)*Tmax
+                           , time=traj$time[hourly]+(cycle-1)*max(pkpd@times)
                            , ANC=traj$Circ[hourly])
       anc.ts <- rbind(anc.ts, to.add)
       course[idx,statevector] <- traj[which.max(traj$time),statevector]
