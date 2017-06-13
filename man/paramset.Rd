@@ -8,15 +8,21 @@ Set up a parameter vector from pop[id,]
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-paramset(id, states = NULL)
+paramset(id, states = NULL, Tinfusion = 1.0, dose1 = 50)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{id}{
-%%     ~~Describe \code{id} here~~
+Subject identifier, an index into \code{pop} global variable.
 }
   \item{states}{
 %%     ~~Describe \code{states} here~~
+}
+  \item{Tinfusion}{
+Duration of infusion, in hours.
+}
+  \item{dose1}{
+Infusion dose.
 }
 }
 \details{
