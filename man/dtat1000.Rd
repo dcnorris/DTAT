@@ -63,42 +63,7 @@ grid.text(expression(MTD[i] \%~\%
 \donttest{
 # Demonstrate exact reproduction of this data set (the titration takes many minutes!)
 set.seed(2016)
-OFmod <- Onoue.Friberg()
-pkpd <- OFmod$pkpd
-inits_fac <- OFmod$inits_fac
-params.default <- c(Circ0=5050, kTR=4/89.3, gamma=0.163, Emax=83.9, EC50=7.17*0.808,
-                    CL=32.6, Q=5.34, Vc=5.77, Vp=11.0, sigma=0.05, dose=50, duration=1.0
-                    )
-pop <- data.frame(id = integer()
-                  ,Circ0= numeric()
-                  ,gamma= numeric()
-                  ,Emax = numeric()
-                  ,EC50 = numeric()
-                  ,CL = numeric()
-                  ,Q  = numeric()
-                  ,Vc = numeric()
-                  ,Vp = numeric()
-                  ,kTR = numeric()
-                  )
-for(id in 1:1000){
-  pop[id,'id'] <- id
-  pop[id,-1] <- rprior(pkpd, params=params.default)[colnames(pop)[-1],]
-}
-
-pop <- upData(pop
-             ,MTT = 4/kTR
-             ,units = c(Circ0="cells/mm^3"
-                       ,MTT="hours"
-                       ,kTR="1/hour"
-                       ,CL="L/h"
-                       ,Q="L/h"
-                       ,Vc="L"
-                       ,Vp="L"
-                       )
-             ,print=FALSE
-             )
-
-N <- nrow(pop)
+Onoue.Friberg(N=1000)
 # This titration may take an hour to run ...
 chemo <- titrate(doserange = 100,
                  dta=newton.raphson(dose1 = 100,
