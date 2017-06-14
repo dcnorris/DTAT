@@ -1,6 +1,6 @@
-doChemo <-
-function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10, doserange=c(50,500),
-                    adapt.dosing=NULL) {
+titrate <-
+function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10,
+         doserange=c(50,500), dta=NULL) {
   stopifnot(sim$N <= nrow(sim$pop))
   # Find the ANC nadirs of all 25 IDs, checking ANCs on (integer-vector) draw.days
   # We will accumulate data about each course of treatment into this data frame.

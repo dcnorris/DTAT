@@ -1,5 +1,5 @@
-\name{doChemo}
-\alias{doChemo}
+\name{titrate}
+\alias{titrate}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Perform Dose Titration Algorithm Tuning (DTAT)
@@ -8,8 +8,8 @@ Perform Dose Titration Algorithm Tuning (DTAT)
 Perform neutrophil-guided dose titration of a chemotherapy drug.
 }
 \usage{
-doChemo(draw.days = NULL, Tcyc = 3 * 7 * 24, Ncycles = 10,
-        doserange = c(50, 500), adapt.dosing = NULL)
+titrate(draw.days = NULL, Tcyc = 3 * 7 * 24, Ncycles = 10,
+        doserange = c(50, 500), dta = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,8 +25,8 @@ doChemo(draw.days = NULL, Tcyc = 3 * 7 * 24, Ncycles = 10,
   \item{doserange}{
 %%     ~~Describe \code{doserange} here~~
 }
-  \item{adapt.dosing}{
-%%     ~~Describe \code{adapt.dosing} here~~
+  \item{dta}{
+  A Dose Titration Algorithm (DTA) to drive the titration
 }
 }
 \details{
