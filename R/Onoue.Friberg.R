@@ -1,5 +1,5 @@
 Onoue.Friberg <-
-function(cycle.length.days=21,
+function(N, cycle.length.days=21,
          data=data.frame(time=c(seq(0.0, 1.95, 0.05), # q3min for 2h, 
                                 seq(2.0, cycle.length.days*24, 1.0)), # then hourly until Tmax
                          y=NA),
@@ -152,5 +152,41 @@ function(cycle.length.days=21,
                , toEstimationScale = Csnippet(pkpd.txform)
                , fromEstimationScale = Csnippet(pkpd.txback)
   )
-  list(pkpd=pkpd, inits_fac=inits_fac)
+  params.default <- c(Circ0=5050, kTR=4/89.3, gamma=0.163, Emax=83.9, EC50=7.17*0.808,
+                      CL=32.6, Q=5.34, Vc=5.77, Vp=11.0, sigma=0.05, dose=50, duration=1.0
+  )
+  pop <- data.frame(id = integer()
+                    ,Circ0= numeric()
+                    ,gamma= numeric()
+                    ,Emax = numeric()
+                    ,EC50 = numeric()
+                    ,CL = numeric()
+                    ,Q  = numeric()
+                    ,Vc = numeric()
+                    ,Vp = numeric()
+                    ,kTR = numeric()
+  )
+  for(id in 1:N){
+    pop[id,'id'] <- id
+    pop[id,-1] <- rprior(pkpd, params=params.default)[colnames(pop)[-1],]
+  }
+  
+  pop$MTT <- 4/pop$kTR
+  pop <- upData(pop
+               #,MTT = 4/kTR
+               ,units = c(Circ0="cells/mm^3"
+                         ,MTT="hours"
+                         ,kTR="1/hour"
+                         ,CL="L/h"
+                         ,Q="L/h"
+                         ,Vc="L"
+                         ,Vp="L"
+                         )
+               ,print=FALSE
+  )
+  sim$pkpd <- pkpd
+  sim$inits_fac <- inits_fac
+  sim$params.default <- params.default
+  sim$pop <- pop
+  sim$N <- N
 }

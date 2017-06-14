@@ -5,7 +5,7 @@
 Power-law scaling for doses
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Implement an inverse power-law scaling for drug dose. 
 }
 \usage{
 scaled(dose, a = 4)

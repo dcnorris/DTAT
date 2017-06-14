@@ -1,16 +1,17 @@
 doChemo <-
 function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10, doserange=c(50,500),
                     adapt.dosing=NULL) {
-  stopifnot(N <= nrow(pop))
+  stopifnot(sim$N <= nrow(sim$pop))
   # Find the ANC nadirs of all 25 IDs, checking ANCs on (integer-vector) draw.days
   # We will accumulate data about each course of treatment into this data frame.
+  pkpd <- sim$pkpd # Obtain a local copy
   hourly <- which(abs(time(pkpd) - round(time(pkpd))) < .Machine$double.eps^0.5)
   anc.ts <- data.frame() # This will be used to collect an hourly 'Circ' time series
-  course <- expand.grid(cycle=1:Ncycles, id=1:N, Cc=0.0, Cp=0.0
+  course <- expand.grid(cycle=1:Ncycles, id=1:sim$N, Cc=0.0, Cp=0.0
                         , Prol=NA, Tx.1=NA, Tx.2=NA, Tx.3=NA, Circ=NA
                         , dose=NA, CircMin=NA, tNadir=NA, scaled.dose=NA
   )
-  trajic <<- lapply(1:N, function(.) list()) # collect all trajectories for inspection/debug
+  trajic <<- lapply(1:sim$N, function(.) list()) # collect all trajectories for inspection/debug
   for (day in draw.days) {
     newcolumn <- paste("ANC", day, sep="_d")
     course[,newcolumn] <- NA
@@ -19,8 +20,8 @@ function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10, doserange=c(50,500),
   }
   course$dose <- seq(scaled, from=min(doserange), to=max(doserange), length.out=max(course$cycle), digits=0)[course$cycle]
   statevector <- c('Cc','Cp','Prol','Tx.1','Tx.2','Tx.3','Circ','CircMin','tNadir')
-  course[,statevector[-(1:2)]] <- pop$Circ0[course$id] # Prol(0)=Tx.1(0)=Tx.2(0)=Tx.3(0)=Circ(0):=Circ0
-  for (id in 1:N) { # outer loop over IDs permits state cycling
+  course[,statevector[-(1:2)]] <- sim$pop$Circ0[course$id] # Prol(0)=Tx.1(0)=Tx.2(0)=Tx.3(0)=Circ(0):=Circ0
+  for (id in 1:sim$N) { # outer loop over IDs permits state cycling
     params <- paramset(id)
     recycle.state <- NULL
     for (cycle in 1:max(course$cycle)) {
@@ -31,7 +32,7 @@ function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10, doserange=c(50,500),
           recycle.state <- unlist(traj[nrow(traj),statevector[1:7]]) # set components of 'real state'
       }
       params['dose'] <- course$dose[idx]
-      pkpd <- pomp(pkpd, initializer = inits_fac(recycle.state))
+      pkpd <- pomp(pkpd, initializer = sim$inits_fac(recycle.state))
       traj <- trajectory(pkpd, params=params, as.data.frame=TRUE)
       trajic[[id]][[cycle]] <<- traj
       to.add <- data.frame(id=rep(id,length(hourly))
@@ -64,11 +65,14 @@ function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10, doserange=c(50,500),
     }
   }
   
+  course$id <- ordered(paste("id",course$id,sep=""), levels=paste("id",1:sim$N,sep=""))
+  course$tNadir <- course$tNadir/24
+  course$scaled.dose <- scaled(course$dose)
   course <- upData(course #[order(course$cycle),]
-                   , id = ordered(paste("id",id,sep="")
-                                  ,levels=paste("id",1:N,sep=""))
-                   , tNadir = tNadir/24
-                   , scaled.dose = scaled(dose)
+                   #, id = ordered(paste("id",id,sep="")
+                   #              ,levels=paste("id",1:sim$N,sep=""))
+                   #, tNadir = tNadir/24
+                   #, scaled.dose = scaled(dose)
                    , labels=c(CircMin="ANC nadir"
                               ,tNadir="Time of ANC nadir"
                               ,dose="Drug Dose"
@@ -82,7 +86,7 @@ function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10, doserange=c(50,500),
   
   anc.ts <- upData(anc.ts
                    , id = ordered(paste("id",id,sep="")
-                                  ,levels=paste("id",1:N,sep=""))
+                                  ,levels=paste("id",1:sim$N,sep=""))
                    , time = time/(24*7)
                    , labels=c(ANC="ANC")
                    , units=c(ANC="cells/mm^3"

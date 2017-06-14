@@ -5,7 +5,7 @@
 Perform Dose Titration Algorithm Tuning (DTAT)
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Perform neutrophil-guided dose titration of a chemotherapy drug.
 }
 \usage{
 doChemo(draw.days = NULL, Tcyc = 3 * 7 * 24, Ncycles = 10,

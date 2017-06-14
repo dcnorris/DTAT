@@ -8,7 +8,7 @@ Authors@R: person("David C.", "Norris"
                  , email = "david@precisionmethods.guru"
                  )
 Maintainer: David C. Norris <david@precisionmethods.guru>
-Depends: R (>= 3.4.0), pomp (>= 1.12)
+Depends: R (>= 3.4.0), pomp (>= 1.12), Hmisc (>= 4.0.3)
 Suggests: rms, tidyr, latticeExtra, RColorBrewer
 Description: Early versions of this package are intended primarily to ensure the
              reproducibility of my research on Dose Titration Algorithm Tuning.

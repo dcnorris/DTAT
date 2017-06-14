@@ -2,10 +2,10 @@
 \alias{paramset}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Set up a parameter vector from pop[id,]
+Set up a parameter vector from sim$pop[id,]
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Obtain a parameter vector for given id from global \code{sim$pop} data frame.
 }
 \usage{
 paramset(id, states = NULL, Tinfusion = 1.0, dose1 = 50)

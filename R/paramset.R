@@ -1,7 +1,7 @@
 paramset <-
 function(id, states=NULL, Tinfusion=1.0, dose1=50){
   id <- as.integer(id)
-  params <- unlist(pop[id,c('Circ0','gamma','Emax','EC50','CL','Q','Vc','Vp','kTR')])
+  params <- unlist(sim$pop[id,c('Circ0','gamma','Emax','EC50','CL','Q','Vc','Vp','kTR')])
   params['sigma'] <- 0.05
   params['duration'] <- Tinfusion
   if (is.null(states)) {
