@@ -100,11 +100,11 @@ pop <- upData(pop
 
 N <- nrow(pop)
 # This titration may take an hour to run ...
-chemo <- doChemo(doserange = 100,
-                 adapt.dosing=newton.raphson(dose1 = 100,
-                                             omega = 0.75,
-                                             slope1 = -2.0,
-                                             slopeU = -0.2)
+chemo <- titrate(doserange = 100,
+                 dta=newton.raphson(dose1 = 100,
+                                    omega = 0.75,
+                                    slope1 = -2.0,
+                                    slopeU = -0.2)
 )
 
 dtat1k <- upData(chemo$course

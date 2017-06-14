@@ -26,8 +26,8 @@ function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10,
     recycle.state <- NULL
     for (cycle in 1:max(course$cycle)) {
       idx <- which(course$cycle==cycle & course$id==id)
-      if (!is.null(adapt.dosing)) { # Override preconfigured dose
-        course$dose[idx] <- adapt.dosing(id, cycle, course)
+      if (!is.null(dta)) { # Override preconfigured dose
+        course$dose[idx] <- dta(id, cycle, course)
         if (cycle>1)
           recycle.state <- unlist(traj[nrow(traj),statevector[1:7]]) # set components of 'real state'
       }

@@ -46,49 +46,5 @@ A dose titration function that advises dose for next cycle of chemotherapy.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{doChemo}}
+\code{\link{titrate}}
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (dose1, omega, slope1, slopeU) 
-{
-    dta <- function(id, cycle, course) {
-        dose <- dose1
-        if (cycle > 1) {
-            lag_1 <- which(course$cycle == (cycle - 1) & course$id == 
-                id)
-            CircMin_1 <- course[lag_1, "CircMin"]
-            dose_1 <- course[lag_1, "dose"]
-            if (cycle == 2) {
-                slope <- slope1
-            }
-            else {
-                lag_2 <- which(course$cycle == (cycle - 2) & 
-                  course$id == id)
-                CircMin_2 <- course[lag_2, "CircMin"]
-                dY <- log(CircMin_1/CircMin_2)
-                dose_2 <- course[lag_2, "dose"]
-                dX <- scaled(dose_1) - scaled(dose_2)
-                slope <- dY/dX
-                slope <- min(slope, slopeU)
-            }
-            delta.scaleddose <- log(500/CircMin_1)/slope
-            delta.safer <- ifelse(delta.scaleddose > 0, omega * 
-                delta.scaleddose, delta.scaleddose)
-            new.scaleddose <- scaled(dose_1) + delta.safer
-            dose <- uniroot(function(y) scaled(y) - new.scaleddose, 
-                c(0, 1e+05))$root
-        }
-        return(dose)
-    }
-    dta
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

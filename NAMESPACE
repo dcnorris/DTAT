@@ -1,5 +1,5 @@
 importFrom("stats","time","uniroot")
 importFrom("Hmisc","label<-","upData")
 import("pomp")
-export(seq.function, scaled, paramset, doChemo, newton.raphson, Onoue.Friberg, sim)
+export(seq.function, scaled, paramset, titrate, newton.raphson, Onoue.Friberg, sim)
 S3method(seq,"function")
