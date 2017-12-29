@@ -1,5 +1,15 @@
 importFrom("stats","time","uniroot")
 importFrom("Hmisc","label<-","upData")
+importFrom("stats","approx","rgamma","sd")
+importFrom("utils","setTxtProgressBar","txtProgressBar")
+importFrom("zipfR","Rgamma")
+importFrom("km.ci","km.ci")
 import("pomp")
-export(seq.function, scaled, paramset, titrate, newton.raphson, Onoue.Friberg, sim)
+import("lattice")
+import("survival")
+import("dplyr")
+export(seq.function, scaled, paramset, titrate, newton.raphson, Onoue.Friberg, sim,
+       dose.survival, dose.survfit, ds.curve, step, add.plottables, OXplot,
+       xyplot.survfit, OXDSplot, ensemble, de.sim)
 S3method(seq,"function")
+S3method(xyplot,"survfit")

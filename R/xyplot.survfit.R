@@ -1,0 +1,49 @@
+# Create a *lattice* version of the base graphics 'plot.survfit'
+# TODO: Consider whether a 'panel.survfit' function would yield better design
+xyplot.survfit <- function(x, data=NULL, ylim=NULL, ...){
+  fit <- x # rename the S3 generic argument
+  # 1. Lay out axes with appropriate limits and labels
+  if(is.null(ylim)){ # NB: May not find full time range
+    ylim <- range(fit$time) + c(0, 0.5)
+  }
+  # 2. Generate data frame for step function
+  df <- with(fit,
+             data.frame(dose=time,
+                        surv=surv,
+                        upper=upper,
+                        lower=lower)
+  )
+  df <- rbind(data.frame(dose=0, surv=1.0, upper=1, lower=1), df)
+  # Insert rows in the data frame as needed to achieve a proper zig-zag
+  # Since the survfit object seems to be right-continuous, our task becomes
+  # to duplicate each left-limit and advance it toward the discontinuity. 
+  discon <- which(diff(df$surv)!=0)
+  left <- df[discon,]
+  left$dose <- df$dose[discon+1]
+  df <- rbind(left, df)
+  df <- df[order(df$dose),]
+  # 3. Invoke 'panel.lines' to get main K-M curve
+  xyplot(NA ~ NA,
+         ylab = NULL,
+         ylab.right = "Dose level",
+         xlab = "Fraction tolerant",
+         par.settings=list(layout.heights=list(left.padding=-1)),
+         scales = list(
+           y = list(limits=ylim,
+                    alternating=2, rot=90,
+                    at=seq(from=max(1,ceil(ylim[1])),
+                           to=floor(ylim[2] - 0.001))
+           ),
+           x = list(limits=c(1,0), at=seq(0,1,0.2), cex=0.8, rot=90)
+         ),
+         panel = function(...){
+           panel.xyplot(...)
+           panel.lines(y=df$dose, x=df$surv, col='black', lwd=3)
+           panel.lines(y=df$dose, x=df$upper, col='gray', lty=3, lwd=3)
+           panel.lines(y=df$dose, x=df$lower, col='gray', lty=3, lwd=3)
+           # Show the dose-dropping and stop.esc decision criteria also
+           panel.refline(v=getOption('dose.drop.threshold'))
+           panel.refline(v=getOption('stop.esc.under'))
+         }
+  )
+}
