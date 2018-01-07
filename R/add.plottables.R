@@ -1,12 +1,14 @@
-add.plottables <- function(de){
+add.plottables <- function(de, tox.pending=FALSE){
   de <- upData(de
                ,cohort = factor((id-1) %/% 3 + 1)
                ,x = 1 + (id-1) %% 3 + 3*(period-1)
                ,pch = c(111,120)[1+dlt] # ASCII 111='o' 120='x'
                ,print = FALSE
   )
+  if(tox.pending){ # support display of last period *pending* DLT assessment
+    de$pch[de$period == max(de$period)] <- 63 # ASCII '?'
+  }
   # Find carried-forward doses and substitute '.' for 'o'
-  # TODO: Construct an *index* into de that finds all '.'
   de <- arrange(de, id, period)
   ix <- with(de, which(id==lag(id) & dose==lag(dose)))
   de$pch[ix] <- 20 # a smaller filled circle
