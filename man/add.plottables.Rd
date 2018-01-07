@@ -8,13 +8,12 @@ Attach plottable variables to a dose titration study
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-add.plottables(de)
+add.plottables(de, tox.pending=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{de}{
-%%     ~~Describe \code{de} here~~
-}
+  \item{de}{A data frame describing a dose-titration study.}
+  \item{tox.pending}{Set TRUE to show last period DLT assessments pending}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

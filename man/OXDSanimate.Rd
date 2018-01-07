@@ -1,23 +1,22 @@
-\name{OXplot}
-\alias{OXplot}
+\name{OXDSanimate}
+\alias{OXDSanimate}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Visualize participants' 'percolation' through the dose levels of a 3+3/PC titration study
+Transparent animation of a 3+3/PC dose-titration study
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Animate the periods of a 3+3/PC dose-titration study, showing the
+dose-survival curve as it accumulates with the conclusion of each
+DLT assessment period.
 }
 \usage{
-OXplot(de, tox.pending=FALSE, periods=max(de$period), top.dose=max(de$dose),
-       ox.col=brewer.pal(4,"Dark2"))
+OXDSanimate(de)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{de}{A data frame describing a dose-titration study}
-  \item{tox.pending}{Set TRUE to show last-period DLT assessment pending}
-  \item{periods}{Number of periods of \code{de} to show}
-  \item{top.dose}{Highest dose level to show on the plot}
-  \item{ox.col}{Colors to cycle through to help discriminate enrolled cohorts}
+  \item{de}{
+%%     ~~Describe \code{de} here~~
+}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -42,12 +41,15 @@ OXplot(de, tox.pending=FALSE, periods=max(de$period), top.dose=max(de$dose),
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{OXDSplot}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+\dontrun{
+library(animation)
+ani.options(ani.width=1012, ani.height=506)
+de <- de.sim(testing=TRUE)
+saveVideo(OXDSanimate(de))
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -8,7 +8,7 @@ OXplot <- function(de, tox.pending=FALSE, periods=max(de$period), top.dose=max(d
     warning(paste("Increasing top.dose to", top.dose, "to avoid lopping top off OXplot."))
   }
   ylim <- c(0.5, top.dose+0.5)
-  xYplot(dose ~ x, group=cohort, data=de
+  xYplot(dose ~ x, groups='cohort', data=de
          , par.settings=list(layout.heights=list(bottom.padding=1.75, right.padding=-1))
          , scales = list(x=list(limits=c(0.5, 3*periods+0.5),
                                 at=seq(1,max(de$id)),

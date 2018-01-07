@@ -8,13 +8,15 @@ Transparent visualization of a 3+3/PC dose-titration study
 Visualize a 3+3/PC dose-titration study
 }
 \usage{
-OXDSplot(de, ox.width = 0.7)
+OXDSplot(de, tox.pending=FALSE, periods=max(de$period), top.dose=max(de$dose),
+         ox.width=0.7)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{de}{
-%%     ~~Describe \code{de} here~~
-}
+  \item{de}{A data frame describing a dose-titration study}
+  \item{tox.pending}{Set TRUE to show last-period DLT assessment pending}
+  \item{periods}{Number of periods of \code{de} to show}
+  \item{top.dose}{Highest dose level to show on the plot}
   \item{ox.width}{Fraction of plot width occupied by the 'OX plot'}
 }
 \details{
