@@ -1,5 +1,4 @@
 # Create a *lattice* version of the base graphics 'plot.survfit'
-# TODO: Consider whether a 'panel.survfit' function would yield better design
 xyplot.survfit <- function(x, data=NULL, ylim=NULL, ...){
   fit <- x # rename the S3 generic argument
   # 1. Lay out axes with appropriate limits and labels
@@ -22,7 +21,10 @@ xyplot.survfit <- function(x, data=NULL, ylim=NULL, ...){
   left$dose <- df$dose[discon+1]
   df <- rbind(left, df)
   df <- df[order(df$dose),]
-  # 3. Invoke 'panel.lines' to get main K-M curve
+  # 3. Determine which sections of the BYPASS and STOP thresholds got tripped
+  bypass.lim <- df$dose[which(df$lower < getOption('dose.drop.threshold'))[1]]
+  stop.lim   <- df$dose[which(df$upper < getOption('stop.esc.under'))[1]]
+  # 4. Invoke 'panel.lines' to draw main K-M curve and its upper/lower band
   xyplot(NA ~ NA,
          ylab = NULL,
          ylab.right = "Dose level",
@@ -44,6 +46,11 @@ xyplot.survfit <- function(x, data=NULL, ylim=NULL, ...){
            # Show the dose-dropping and stop.esc decision criteria also
            panel.refline(v=getOption('dose.drop.threshold'))
            panel.refline(v=getOption('stop.esc.under'))
+           # Overplot the tripped sections of these thresholds
+           panel.lines(x=rep(getOption('dose.drop.threshold'),2),
+                       y=c(ylim[1], bypass.lim), col='green')
+           panel.lines(x=rep(getOption('stop.esc.under'),2),
+                       y=c(stop.lim, ylim[2]), col='red')
          }
   )
 }
