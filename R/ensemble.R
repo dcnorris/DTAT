@@ -10,5 +10,6 @@ ensemble <- function(K=10, ...){
     de.ensemble[[k]] <<- de.last
     setTxtProgressBar(pb, k)
   }
+  cat('\n') # finish with progress bar before interactive printing
   df
 }
