@@ -1,11 +1,11 @@
 # Construct a Surv object from a dose-escalation experiment,
 # using interval-censoring constructs a la type='interval2'
 dose.survival <- function(de){
-  de <- select(de, id, dose, dlt)
+  de <- de[,c('id','dose','dlt')]
   suppressMessages({
-    L <- summarize(group_by(subset(de,!dlt), id), doseL=max(dose))
+    L <- summarize(group_by(de[!de$dlt,], id), doseL=max(dose))
     suppressWarnings( # expect min() to yield Inf often below
-      R <- summarize(group_by(subset(de, dlt), id), doseR=min(dose))
+      R <- summarize(group_by(de[de$dlt,], id), doseR=min(dose))
     )
     ds <- full_join(L, R)
   })

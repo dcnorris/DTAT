@@ -27,9 +27,9 @@ step <- function(de, MTDi, verbose=is.null(sys.call(-1))){
   if(verbose) cat("stop.esc =", stop.esc, "\n")
   # 1. Obtain the *last* period in de, 'sufficient' for intra-individual escalation decisions
   permax <- max(de$period)
-  last <- subset(de, period == permax)
+  last <- de[de$period == permax,]
   # 2. Determine whether there will be a dose escalation
-  top <- subset(last, dose == max(dose))
+  top <- last[last$dose == max(last$dose),]
   if(!stop.esc && sum(!top$dlt) >= 3) # simple condition: must have 3+ IDs to titrate up
     domax <- domax + 1
   if(undo.esc)
@@ -41,23 +41,23 @@ step <- function(de, MTDi, verbose=is.null(sys.call(-1))){
   #    that we do not need to carry them forward any further for purposes of
   #    visualization or escalation/dose-dropping decisions.)
   if(permax == 1){ # trivial case - drop 1st-period DLTs
-    follow <- subset(last, !dlt)
+    follow <- last[!last$dlt,]
     reduce.ids <- NULL
   } else { # we have 2 periods to look back on
-    last2 <- subset(de, period >= permax - 1 & id <= 3*(permax-1))
+    last2 <- de[de$period >= permax - 1 & de$id <= 3*(permax-1),]
     # For IDs who have crossed their MTDi's, we will have crossed = T+F (or F+T) = 1.
     # Otherwise, we'll have crossed = F+F = 0 or T+T = 2.
     cross.ids <- subset(summarize(group_by(last2, id), crossed = sum(dlt)==1)
                         , crossed)$id
-    follow <- subset(last, !(id %in% cross.ids) & !(dose==1 & dlt))
+    follow <- last[!(last$id %in% cross.ids) & !(last$dose==1 & last$dlt),]
     reduce.ids <- subset(summarize(group_by(de, id), all.dlt=all(dlt), min.dose=min(dose))
                          , all.dlt & min.dose > 1)$id
     # Verify that all reduce.ids are retained in 'follow':
     stopifnot(all(reduce.ids %in% follow$id))
     # Omit top-dose finalizers if we have stopped escalation
     if(stop.esc){
-      maxout.ids <- subset(de, period == permax & dose >= domax & !dlt)$id
-      follow <- subset(follow, !(id %in% maxout.ids))
+      maxout.ids <- de[de$period == permax & de$dose >= domax & !de$dlt,]$id
+      follow <- follow[!(follow$id %in% maxout.ids),]
     }
   }
   # 4. Carry forward subjects at (same | escalated | reduced) dose

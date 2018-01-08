@@ -33,7 +33,7 @@ xyplot.survfit <- function(x, data=NULL, ylim=NULL, ...){
          scales = list(
            y = list(limits=ylim,
                     alternating=2, rot=90,
-                    at=seq(from=max(1,ceil(ylim[1])),
+                    at=seq(from=max(1,ceiling(ylim[1])),
                            to=floor(ylim[2] - 0.001))
            ),
            x = list(limits=c(1,0), at=seq(0,1,0.2), cex=0.8, rot=90)

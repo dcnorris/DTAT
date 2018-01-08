@@ -9,7 +9,7 @@ dose.survfit <- function(de, method="rothman", avoid.degeneracy=TRUE){
       de <- rbind(data.frame(id=0, period=0, dose=1, dlt=TRUE), de)
       weights <- c(artif.x, weights)
     }
-    if(with(subset(de, dose==max(dose)), all(dlt))){
+    if(with(de[de$dose==max(de$dose),], all(dlt))){
       de <- rbind(de, data.frame(id=Inf, period=max(de$period), dose=max(de$dose), dlt=FALSE))
       weights <- c(weights, artif.o)
     }

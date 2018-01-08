@@ -15,7 +15,7 @@ OXplot <- function(de, tox.pending=FALSE, periods=max(de$period), top.dose=max(d
                                 rot=60, cex=0.6,
                                 col=rep(ox.col,each=3))
                          ,y=list(limits=ylim,
-                                 at=seq(from=max(1,ceil(ylim[1])),
+                                 at=seq(from=max(1,ceiling(ylim[1])),
                                         to=floor(ylim[2] - 0.001))
                          )
          )
