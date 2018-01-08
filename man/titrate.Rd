@@ -29,32 +29,15 @@ titrate(draw.days = NULL, Tcyc = 3 * 7 * 24, Ncycles = 10,
   A Dose Titration Algorithm (DTA) to drive the titration
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A list with 2 components:
+\item{course}{A data frame containing cycle-wise measures of each id's titration course}
+\item{anc.ts}{A data frame detailing hourly ANC measures for each id}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
+\author{David C. Norris}
 \note{
 TODO: Once I've implemented several nontrivial dosing algorithms, I should
       consider whether the 'doserange' case ought to be handled by a special
       non-adaptive DTA.
 
 }
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-

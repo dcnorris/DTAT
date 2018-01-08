@@ -5,7 +5,12 @@
 Calculate a dose-survival curve from a dose titration study, adding a confidence band
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+The 'dose-survival curve' is nothing other than an empirical cumulative distribution
+for MTDi in the sampled population. The term 'survival' is suggested in part by our
+application of the Kaplan-Meier estimator to interval-censored toxicity information.
+}
+\details{
+TODO: Describe details of degeneracy avoidance, once these have stabilized.
 }
 \usage{
 dose.survfit(de, method = "rothman", avoid.degeneracy = TRUE)
@@ -16,26 +21,17 @@ dose.survfit(de, method = "rothman", avoid.degeneracy = TRUE)
   \item{method}{The method to be used by \code{package:km.ci} when calculating CI}
   \item{avoid.degeneracy}{When TRUE, this parameter directs the function to introduce artificial events into the dose titration experiment, to avoid degeneracies at the lower and upper ends of the dose-survival curve.}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 An object of class \code{survfit}.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+David C. Norris
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{dose.survival}}, ~~~
 }
 \examples{
 ##---- Should be DIRECTLY executable !! ----

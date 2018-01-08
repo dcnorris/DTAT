@@ -31,9 +31,6 @@ Passed through as the \code{data} argument of the \code{pomp} constructor.
 Time-step (in hours) of pomp's \code{euler.sim} plug-in.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 No value is produced; the function sets global variables in package environment \code{DTAT::sim}.
 }
@@ -42,14 +39,10 @@ No value is produced; the function sets global variables in package environment 
 
 2. Friberg LE, Henningsson A, Maas H, Nguyen L, Karlsson MO. Model of chemotherapy-induced myelosuppression with parameter consistency across drugs. J Clin Oncol. 2002 Dec 15;20(24):4713-21. doi:10.1200/JCO.2002.02.140.
 
-3. Norris DC. Dose Titration Algorithm Tuning (DTAT) should supersede 'the' Maximum Tolerated Dose (MTD) in oncology dose-finding trials. F1000Research. 2017;6:112. doi:10.12688/f1000research.10624.2.
+3. Norris DC. Dose Titration Algorithm Tuning (DTAT) should supersede 'the' Maximum Tolerated Dose (MTD) in oncology dose-finding trials. F1000Research. 2017;6:112. doi:10.12688/f1000research.10624.3. \url{https://f1000research.com/articles/6-112/v3}
+
 }
-\author{
-David C. Norris
-}
-\note{
-%%  ~~further notes~~
-}
+\author{David C. Norris}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

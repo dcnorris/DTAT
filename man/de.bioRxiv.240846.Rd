@@ -63,18 +63,12 @@ List of 10
   ..$ dlt   : logi [1:104] FALSE FALSE FALSE FALSE FALSE FALSE ...
   ..- attr(*, "stop.esc")= num 7
 }
-\details{
-%%  ~~ If necessary, more details than the __description__ above ~~
-}
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
 \references{
 Norris DC. Precautionary Coherence Unravels Dose Escalation Designs. bioRxiv. December 2017:240846. doi:10.1101/240846.
 \url{https://www.biorxiv.org/content/early/2017/12/29/240846}
 }
 \examples{
 data(de.bioRxiv.240846)
-## maybe str(de) ; plot(de) ...
+## maybe OXDSplot(last(de))
 }
 \keyword{datasets}

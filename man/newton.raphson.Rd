@@ -13,18 +13,10 @@ newton.raphson(dose1, omega, slope1, slopeU)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{dose1}{
-%%     ~~Describe \code{dose1} here~~
-}
-  \item{omega}{
-%%     ~~Describe \code{omega} here~~
-}
-  \item{slope1}{
-%%     ~~Describe \code{slope1} here~~
-}
-  \item{slopeU}{
-%%     ~~Describe \code{slopeU} here~~
-}
+  \item{dose1}{The starting dose for titration}
+  \item{omega}{A relaxation parameter used to moderate dose increments}
+  \item{slope1}{Dose-response slope assumed prior to 2nd measured neutrophil nadir}
+  \item{slopeU}{Upper bound imposed on slope estimates}
 }
 \details{
 This function manifests the core concept of Dose Titration Algorithm Tuning
@@ -34,14 +26,7 @@ of DTAs to be implemented and compared.
 \value{
 A dose titration function that advises dose for next cycle of chemotherapy.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-}
+\author{David C. Norris}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

@@ -13,54 +13,23 @@ a natural axis scaling idiom.
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{scalefun}{
-%%     ~~Describe \code{scalefun} here~~
-}
-  \item{from}{
-%%     ~~Describe \code{from} here~~
-}
-  \item{to}{
-%%     ~~Describe \code{to} here~~
-}
-  \item{length.out}{
-%%     ~~Describe \code{length.out} here~~
-}
-  \item{digits}{
-%%     ~~Describe \code{digits} here~~
-}
+  \item{scalefun}{A numeric function that will be invoked componentwise, and so need not be vectorized)}
+  \item{from, to}{The starting and ending values of the sequence returned}
+  \item{length.out}{Desired length of the sequence}
+  \item{digits}{If non-NULL, returned value is rounded accordingly}
   \item{\dots}{Unused; included for S3 generic/method consistency.}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A numeric vector that (not considering the effect of any rounding applied),
+becomes an arithmetic sequence after application of \code{scalefun} to it.
+The initial and final elements of that vector are \code{from} and \code{to}.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+\author{David C. Norris}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 # Provide evenly-spaced length-6 sequence from 100 to 1000,
 # evenly spaced on a fourth-root scale:
 seq(function(dose, a=4.0) dose^(1/a), from=100, to=1000, length.out=6, digits=0)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

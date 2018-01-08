@@ -2,47 +2,32 @@
 \alias{ensemble}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Generate an ensemble of simulated dose titration studies.
+Generate and summarize an ensemble of simulated dose titration studies.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Generate and summarize an ensemble of simulated dose titration studies.
 }
 \usage{
 ensemble(K = 10, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{K}{
-%%     ~~Describe \code{K} here~~
-}
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+  \item{K}{Number of simulated studies to run}
+  \item{\dots}{Parameters to be passed through to \code{de.sim}}
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A data frame summarizing key outcomes of the simulated trials:
+\item{enrolling.dose}{Enrolling dose at conclusion of study}
+\item{max.dose}{Maximum allowed dose at conclusion of study}
+\item{effic.33pc}{Efficiency of titration over retained doses, relative to perfect 'MTDi' dosing}
+\item{effic.1sfa}{Efficiency of 1-size-fits-all dosing, relative to perfect 'MTDi' dosing}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+\author{David C. Norris}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{de.sim}}
 }
 \examples{
 ##---- Should be DIRECTLY executable !! ----

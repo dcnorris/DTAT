@@ -2,10 +2,10 @@
 \alias{OXplot}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Visualize participants' 'percolation' through the dose levels of a 3+3/PC titration study
+Visualize the 'percolation' through the dose levels of a 3+3/PC titration study
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Visualize participants' 'percolation' through the dose levels of a 3+3/PC titration study
 }
 \usage{
 OXplot(de, tox.pending=FALSE, periods=max(de$period), top.dose=max(de$dose),
@@ -19,37 +19,19 @@ OXplot(de, tox.pending=FALSE, periods=max(de$period), top.dose=max(de$dose),
   \item{top.dose}{Highest dose level to show on the plot}
   \item{ox.col}{Colors to cycle through to help discriminate enrolled cohorts}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A \code{lattice} plot
 }
 \references{
-%% ~put references to the literature/web site here ~
+Norris DC. Precautionary Coherence Unravels Dose Escalation Designs. bioRxiv. December 2017:240846. doi:10.1101/240846. \url{https://www.biorxiv.org/content/early/2017/12/29/240846}
+
 }
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+\author{David C. Norris}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{OXDSplot}} uses \code{OXplot} in its full and proper context;
+please consult its documentation for full details
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

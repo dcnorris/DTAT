@@ -12,43 +12,24 @@ paramset(id, states = NULL, Tinfusion = 1.0, dose1 = 50)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{id}{
-Subject identifier, an index into \code{pop} global variable.
-}
-  \item{states}{
-%%     ~~Describe \code{states} here~~
-}
-  \item{Tinfusion}{
-Duration of infusion, in hours.
-}
-  \item{dose1}{
-Infusion dose.
-}
+  \item{id}{Subject identifier, an index into \code{pop} global variable.}
+  \item{states}{This looks like a 'legacy' parameter, no longer used. TODO: Factor it out?}
+  \item{Tinfusion}{Duration of infusion, in hours.}
+  \item{dose1}{Infusion dose.}
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+This is really a straightforward utility function, apparently used only once,
+in function \code{titrate}. Perhaps I should have made it an internal function!
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A named parameter vector, suitable a the \code{params} argument for \code{pomp::trajectory}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+\author{David C. Norris}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link[pomp]{trajectory}}
 }
 \examples{
 ##---- Should be DIRECTLY executable !! ----

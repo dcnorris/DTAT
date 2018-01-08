@@ -34,11 +34,11 @@ subjects.
 Running the examples interactively, you can verify the reproducibility of this dataset.
 (That demo is included in a \code{donttest} block to spare the CRAN servers.)
 }
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
 \references{
-%%  ~~ possibly secondary sources and usages ~~
+1. Norris DC. Dose Titration Algorithm Tuning (DTAT) should supersede 'the' Maximum Tolerated Dose (MTD) in oncology dose-finding trials. F1000Research. 2017;6:112. doi:10.12688/f1000research.10624.3. \url{https://f1000research.com/articles/6-112/v3}
+
+2. Norris DC. Costing 'the' MTD. bioRxiv. August 2017:150821. doi:10.1101/150821. \url{http://www.biorxiv.org/content/early/2017/08/22/150821}
+
 }
 \examples{
 data(dtat1000)

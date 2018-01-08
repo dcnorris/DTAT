@@ -14,44 +14,30 @@ OXDSanimate(de)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{de}{
-%%     ~~Describe \code{de} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+  \item{de}{A list of period-wise snapshots from a dose-titration study}
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+No value is returned. This function is intended to be passed
+as the \code{expr} argument to package \code{animation} functions
+such as \code{saveGIF} and \code{saveVideo}. See the example
+below.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+\author{David C. Norris}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
 \code{\link{OXDSplot}}
+\code{\link[animation]{animation}}
 }
 \examples{
 \dontrun{
+# Running this is not quite 'catastrophic', but the saveVideo()
+# function may take a good fraction of a minute to run.
 library(animation)
 ani.options(ani.width=1012, ani.height=506)
 de <- de.sim(testing=TRUE)
-saveVideo(OXDSanimate(de))
+saveVideo(OXDSanimate(de)) # produces file "animation.mp4"
 }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{dynamic}

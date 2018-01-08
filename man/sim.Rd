@@ -26,12 +26,6 @@ Global variables maintained within environment \code{sim} are:
     \item Records are separated by one or more empty lines.
 }
 }
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
 \examples{
 # Even when nrow(pop) is large, one may easily restrict
 # time-consuming simulations to pop[1:N,], as follows:
