@@ -11,7 +11,7 @@ function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10,
                         , Prol=NA, Tx.1=NA, Tx.2=NA, Tx.3=NA, Circ=NA
                         , dose=NA, CircMin=NA, tNadir=NA, scaled.dose=NA
   )
-  trajic <<- lapply(1:sim$N, function(.) list()) # collect all trajectories for inspection/debug
+  #trajic <<- lapply(1:sim$N, function(.) list()) # collect all trajectories for inspection/debug
   for (day in draw.days) {
     newcolumn <- paste("ANC", day, sep="_d")
     course[,newcolumn] <- NA
@@ -34,20 +34,20 @@ function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10,
       params['dose'] <- course$dose[idx]
       pkpd <- pomp(pkpd, initializer = sim$inits_fac(recycle.state))
       traj <- trajectory(pkpd, params=params, as.data.frame=TRUE)
-      trajic[[id]][[cycle]] <<- traj
+      #trajic[[id]][[cycle]] <<- traj
       to.add <- data.frame(id=rep(id,length(hourly))
                            , time=traj$time[hourly]+(cycle-1)*max(pkpd@times)
                            , ANC=traj$Circ[hourly])
       anc.ts <- rbind(anc.ts, to.add)
       course[idx,statevector] <- traj[which.max(traj$time),statevector]
       # Halt if integrated CircMin > min(traj$Circ) + eps, or is substantially less
-      if(!(course[idx,'CircMin'] < min(traj$Circ) + 0.05)){
-        inspect.recycle.state <<- recycle.state
-        inspect.course <<- course
-        inspect.idx <<- idx
-        inspect.traj <<- traj
-        inspect.id <<- id
-      }
+      # if(!(course[idx,'CircMin'] < min(traj$Circ) + 0.05)){
+      #   inspect.recycle.state <<- recycle.state
+      #   inspect.course <<- course
+      #   inspect.idx <<- idx
+      #   inspect.traj <<- traj
+      #   inspect.id <<- id
+      # }
       if (course[idx,'CircMin'] > min(traj$Circ) + 0.5) {
         warning("In cycle ", cycle, " for id", id,
                 ", CircMin=", course[idx,'CircMin'], " >> ", min(traj$Circ), "=min(traj$Circ)")

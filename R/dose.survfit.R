@@ -14,11 +14,11 @@ dose.survfit <- function(de, method="rothman", avoid.degeneracy=TRUE){
       weights <- c(weights, artif.o)
     }
   }
-  de.inspect <<- de
+  #de.inspect <<- de
   S <- dose.survival(de)
-  S.inspect <<- S
+  #S.inspect <<- S
   fit <- survfit(S ~ 1, weights=weights)
-  fit.inspect <<- fit
+  #fit.inspect <<- fit
   stopifnot(max(fit$time) == max(de$dose) || !avoid.degeneracy) # assert degeneracy avoided
   fit <- km.ci(fit, method=method, conf.level=getOption('ds.conf.level'))
 }

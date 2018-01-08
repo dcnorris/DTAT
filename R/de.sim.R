@@ -11,7 +11,7 @@ de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
   mtd <- rgamma(N, shape=shape, scale=scale)
   # 2. Transform these MTDi's onto the geometric dose range
   MTDi <- 1 + log(mtd/start.dose) / log(1+dose.jump)
-  MTDi.last <<- MTDi
+  #MTDi.last <<- MTDi
   # 3. Iteratively build a de *list* (de[[1]], de[[2]], ..., de[[periods]])
   de <- list(step(NULL, MTDi))
   for(p in 2:periods){
@@ -60,7 +60,7 @@ de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
   if(testing)
     invisible(de)
   else {
-    de.last <<- de
+    #de.last <<- de
     # TODO: What else should I include below?
     data.frame(enrolling.dose=enrolling.dose
                , max.dose=top.dose

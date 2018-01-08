@@ -12,7 +12,7 @@ dose.survival <- function(de){
   ds$doseL[is.na(ds$doseL)] <- 0
   ds$doseR[is.na(ds$doseR)] <- Inf
   ds <- arrange(ds, id)
-  ds.debug <<- ds
+  #ds.debug <<- ds
   # Compute the Surv object
   S <- with(ds, Surv(time=doseL, time2=doseR, type='interval2'))
   S
