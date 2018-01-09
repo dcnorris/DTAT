@@ -45,13 +45,14 @@ step <- function(de, MTDi, verbose=is.null(sys.call(-1))){
     reduce.ids <- NULL
   } else { # we have 2 periods to look back on
     last2 <- de[de$period >= permax - 1 & de$id <= 3*(permax-1),]
-    # For IDs who have crossed their MTDi's, we will have crossed = T+F (or F+T) = 1.
-    # Otherwise, we'll have crossed = F+F = 0 or T+T = 2.
-    cross.ids <- subset(summarize(group_by(last2, id), crossed = sum(dlt)==1)
-                        , crossed)$id
+    # For IDs who have crossed their MTDi's, we will have sum(dlt) = T+F (or F+T) = 1.
+    # Otherwise, we'll have sum(dlt) = F+F = 0 or T+T = 2.
+    crossings <- aggregate(dlt ~ id, data=last2, FUN=function(dlt) sum(dlt)==1)
+    cross.ids <- crossings[crossings$dlt,]$id
     follow <- last[!(last$id %in% cross.ids) & !(last$dose==1 & last$dlt),]
-    reduce.ids <- subset(summarize(group_by(de, id), all.dlt=all(dlt), min.dose=min(dose))
-                         , all.dlt & min.dose > 1)$id
+    all.dlt <- aggregate(dlt ~ id, data=de, FUN=all)
+    min.dose <- aggregate(dose ~ id, data=de, FUN=min)
+    reduce.ids <- intersect(all.dlt[all.dlt$dlt,]$id, min.dose[min.dose$dose>1,]$id)
     # Verify that all reduce.ids are retained in 'follow':
     stopifnot(all(reduce.ids %in% follow$id))
     # Omit top-dose finalizers if we have stopped escalation

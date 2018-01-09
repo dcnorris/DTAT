@@ -2,7 +2,7 @@ Package: DTAT
 Type: Package
 Title: A new dose-finding methodology: Dose Titration Algorithm Tuning
 Version: 0.2-2
-Date: 2018-01-07
+Date: 2018-01-09
 Authors@R: person("David C.", "Norris"
                  , role = c("aut", "cre")
                  , email = "david@precisionmethods.guru"
