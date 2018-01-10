@@ -136,6 +136,7 @@ function(N, cycle.length.days=21,
     }
     inits
   }
+  vectorfield <- NULL # avoids R CMD check NOTE 'no visible global function def' from below
   pkpd <- pomp(data = data
                , times="time", t0=0
                , skeleton=vectorfield(Csnippet(pkpd.skel))
