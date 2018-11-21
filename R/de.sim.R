@@ -57,8 +57,11 @@ de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
     print(data.frame(dose.level=(1:top.dose), Pr=Prs, Q=Qs))
   }
   # 8. Depending on mode (-testing- or not), return whole 'de' list or 1-row data frame
-  if(testing)
+  if(testing) {
+    attr(de, 'mtd') <- mtd
+    class(de) <- c("de", class(de))
     invisible(de)
+  }
   else {
     #de.last <<- de
     # TODO: What else should I include below?
