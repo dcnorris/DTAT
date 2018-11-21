@@ -1,15 +1,25 @@
 Package: DTAT
 Type: Package
-Title: A new dose-finding methodology: Dose Titration Algorithm Tuning
-Version: 0.2-2
-Date: 2018-01-09
+Title: Dose Titration Algorithm Tuning: a framework for dose individualization
+Version: 0.2-3
+Date: 2018-11-21
 Authors@R: person("David C.", "Norris"
                  , role = c("aut", "cre")
                  , email = "david@precisionmethods.guru"
                  )
 Maintainer: David C. Norris <david@precisionmethods.guru>
-Depends: R (>= 3.4.0), pomp (>= 1.12), Hmisc (>= 4.0.3), lattice, survival, dplyr
-Imports: km.ci, zipfR, RColorBrewer
+Depends: R (>= 3.4.0),
+         pomp (>= 1.12),
+         Hmisc (>= 4.0.3),
+         lattice,
+         survival,
+         dplyr
+Imports: km.ci,
+         zipfR,
+         RColorBrewer,
+         data.table,
+         r2d3,
+         jsonlite
 Suggests: rms, tidyr, latticeExtra, animation
 Description: Early versions of this package are intended primarily to ensure the
              reproducibility of my research on Dose Titration Algorithm Tuning.

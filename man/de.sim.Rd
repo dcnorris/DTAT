@@ -52,6 +52,9 @@ Norris DC. Precautionary Coherence Unravels Dose Escalation Designs. bioRxiv. De
 \examples{
 # Perform a regression test for package:DTAT
 de.compare <- de.sim(testing=TRUE)
+# Strip down to basics from v0.2-1
+attributes(de.compare) <- NULL
+class(de.compare) <- "list"
 data(de.bioRxiv.240846)
 stopifnot(identical(de.compare, de.bioRxiv.240846))
 }
