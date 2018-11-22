@@ -18,6 +18,7 @@ Imports: km.ci,
          zipfR,
          RColorBrewer,
          data.table,
+         htmlwidgets,
          r2d3,
          jsonlite
 Suggests: rms, tidyr, latticeExtra, animation
