@@ -18,3 +18,4 @@ export(seq.function, scaled, paramset, titrate, newton.raphson, Onoue.Friberg, s
 S3method(seq,"function")
 S3method(xyplot,"survfit")
 S3method(as_d3_data,"de")
+S3method(plot,"de")
