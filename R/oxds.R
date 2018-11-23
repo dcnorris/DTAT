@@ -1,6 +1,7 @@
 #' <Add Title>
 #'
-#' <Add Description>
+#' This is just a placeholder at this point, to support a future
+#' implementation of the 3+3/PC visualization as an 'htmlwidget'.
 #'
 #' @import htmlwidgets
 #'
