@@ -10,13 +10,14 @@ a complete 3+3/PC study. For details on the 3+3/PC rules, please see
 the references below.
 }
 \usage{
-step(de, MTDi, verbose = is.null(sys.call(-1)))
+step(de, MTDi, verbose = is.null(sys.call(-1)), n.doses = Inf)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{de}{A data frame describing the events of a dose-titration study underway}
   \item{MTDi}{Vector of MTDi's, indexed by participant id}
   \item{verbose}{Logical: the default provides verbose output (for debugging and instruction) when invoked interactively from the R prompt, but not when invoked 'programmatically' by client code.}
+  \item{n.doses}{When specified, prevents escalation to (n+1)th dose}
 }
 \value{
 A data frames summarizing the events of a dose-titration study

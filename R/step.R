@@ -1,5 +1,5 @@
 # Define a recursive function that implements the next period
-step <- function(de, MTDi, verbose=is.null(sys.call(-1))){
+step <- function(de, MTDi, verbose=is.null(sys.call(-1)), n.doses = Inf){
   # 0. Handle the base case
   if(is.null(de)){
     de1 <- data.frame(id=integer(0),
@@ -31,7 +31,14 @@ step <- function(de, MTDi, verbose=is.null(sys.call(-1))){
   # 2. Determine whether there will be a dose escalation
   top <- last[last$dose == max(last$dose),]
   if(!stop.esc && sum(!top$dlt) >= 3) # simple condition: must have 3+ IDs to titrate up
+  {
     domax <- domax + 1
+    if(domax > n.doses){
+      domax <- domax - 1 # "Nope."
+      # Treat a pre-set max dose WLOG as though 'found' during trial:
+      stop.esc <- TRUE
+    }
+  }
   if(undo.esc)
     domax <- domax - 1
   if(verbose) cat("domax =", domax, "\n")

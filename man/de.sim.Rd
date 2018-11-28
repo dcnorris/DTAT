@@ -9,7 +9,7 @@ Please see the reference cited below.
 }
 \usage{
 de.sim(CV = 0.7, start.dose = 0.25, dose.jump = 0.4, N = 24, periods = N/3 + 2,
-       testing = is.null(sys.call(-1)), once = testing)
+       testing = is.null(sys.call(-1)), once = testing, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,6 +20,7 @@ de.sim(CV = 0.7, start.dose = 0.25, dose.jump = 0.4, N = 24, periods = N/3 + 2,
   \item{periods}{Number of DLT assessment periods to simulate}
   \item{testing}{This parameter helps differentiate function behavior (type of value returned) appropriately to interactive vs programmed invocation}
   \item{once}{When TRUE, does a single simulation returning \code{de} object}
+  \item{\dots}{Additional arguments passed to function \code{step}}
 }
 \value{
 When once=TRUE, a list of data frames summarizing the events of a dose-titration

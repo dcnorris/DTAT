@@ -1,5 +1,5 @@
 de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
-                   testing=is.null(sys.call(-1)), once=testing){
+                   testing=is.null(sys.call(-1)), once=testing, ...){
   # Invoked interactively, the function aims to support reproducible, interactive testing.
   # Otherwise (the intended default) it simply returns simulation summaries that the caller
   # is supposed to be interested in aggregating.
@@ -13,9 +13,9 @@ de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
   MTDi <- 1 + log(mtd/start.dose) / log(1+dose.jump)
   #MTDi.last <<- MTDi
   # 3. Iteratively build a de *list* (de[[1]], de[[2]], ..., de[[periods]])
-  de <- list(step(NULL, MTDi))
+  de <- list(step(NULL, MTDi, ...))
   for(p in 2:periods){
-    de[[p]] <- step(de[[p-1]], MTDi)
+    de[[p]] <- step(de[[p-1]], MTDi, ...)
   }
   # 4. Do an OXDSplot (in the interactive K=1 case)
   if(once) OXDSplot(de[[periods]])
