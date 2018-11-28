@@ -9,7 +9,7 @@ Please see the reference cited below.
 }
 \usage{
 de.sim(CV = 0.7, start.dose = 0.25, dose.jump = 0.4, N = 24, periods = N/3 + 2,
-       testing = is.null(sys.call(-1)))
+       testing = is.null(sys.call(-1)), once = testing)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,10 +18,11 @@ de.sim(CV = 0.7, start.dose = 0.25, dose.jump = 0.4, N = 24, periods = N/3 + 2,
   \item{dose.jump}{The fractional increase between dose levels}
   \item{N}{Number of simulated subjects to enroll}
   \item{periods}{Number of DLT assessment periods to simulate}
-  \item{testing}{This parameters helps differentiate function behavior (type of value returned) appropriately to interactive vs programmed invocation}
+  \item{testing}{This parameter helps differentiate function behavior (type of value returned) appropriately to interactive vs programmed invocation}
+  \item{once}{When TRUE, does a single simulation returning \code{de} object}
 }
 \value{
-When testing=TRUE, a list of data frames summarizing the events of a dose-titration
+When once=TRUE, a list of data frames summarizing the events of a dose-titration
 study up to a given DLT assessment period. Thus, \code{de[[3]]} is a data frame
 with columns as follows:
 \itemize{

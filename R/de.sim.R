@@ -1,5 +1,5 @@
 de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
-                   testing=is.null(sys.call(-1))){
+                   testing=is.null(sys.call(-1)), once=testing){
   # Invoked interactively, the function aims to support reproducible, interactive testing.
   # Otherwise (the intended default) it simply returns simulation summaries that the caller
   # is supposed to be interested in aggregating.
@@ -18,13 +18,13 @@ de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
     de[[p]] <- step(de[[p-1]], MTDi)
   }
   # 4. Do an OXDSplot (in the interactive K=1 case)
-  if(testing) OXDSplot(de[[periods]])
+  if(once) OXDSplot(de[[periods]])
   # 5. Determine the dose levels retained, based on study-end DS curve
   dsc <- ds.curve(de[[periods]])
   enrolling.dose <- min(which(dsc$lower < getOption('dose.drop.threshold')))
   top.dose <- max(which(dsc$upper > getOption('undo.esc.under')))
   Ds <- start.dose * (1+dose.jump)^(1:top.dose - 1)
-  if(testing){ # ...and print them in interactive K=1 case
+  if(once){ # ...and print them in interactive K=1 case
     cat(paste("retained doses:\n"))
     print(data.frame(dose.level=(1:top.dose), dose=Ds))
   }
@@ -34,7 +34,7 @@ de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
   Pr <- 0.5 * gamma(shape-0.5) / gamma(shape) * sum( Qs * diff(sqrt(c(0,Ds_))) )
   if(testing) cat("Population rate of remission (exact):", Pr, "\n")
   # When -testing-, double-check this calculation by brute-force simulation
-  if(testing){
+  if(once){
     Pr_50k <- numeric(10)
     for(i in 1:length(Pr_50k)){
       mtd50k <- rgamma(50000, shape=shape, scale=scale)
@@ -51,13 +51,13 @@ de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
   }
   # 7. Calculate Pr for 1-size-fits-all dosing at each dose level
   Prs <- 0.5 * gamma(shape-0.5) / gamma(shape) * Qs * sqrt(Ds_)
-  if(testing){
+  if(once){
     cat(paste("Pr's for 1-size-fits-all dosing at each retained dose:\n"))
     # TODO: Consider 1:top.dose below, or even 1:Inf!
     print(data.frame(dose.level=(1:top.dose), Pr=Prs, Q=Qs))
   }
   # 8. Depending on mode (-testing- or not), return whole 'de' list or 1-row data frame
-  if(testing) {
+  if(once) {
     attr(de, 'mtd') <- mtd
     class(de) <- c("de", class(de))
     invisible(de)
