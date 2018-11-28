@@ -1,23 +1,19 @@
 const oxFract = 0.75;
 const dsFract = 1.0 - oxFract;
 
-const divs3 = [
+const oxds_divs = [
   {id:"ox-plot", class:"svg-container"},
-  {id:"ds-plot", class:"svg-container"},
-  {id:"pc-paper", class:"footer"}];
+  {id:"ds-plot", class:"svg-container"}];
 
-// Provide the 3 DIVs formerly specified in my 'index.html' file:
-div.selectAll("div").data(divs3).enter().append("div")
+// Provide DIVs for the OX and DS plots:
+div.selectAll("div").data(oxds_divs).enter().append("div")
     .attr("id", d => d.id)
     .attr("class", d => d.class);
 
 // TODO: Should I use 'classed()' above, instead?
-    
-// Provide the content for the 'pc-paper' DIV
-var dl = div.select("#pc-paper").append('dl');
-dl.append('dt').html('Reference');
-dl.append('dd').html('Norris DC. Precautionary Coherence Unravels Dose Escalation Designs. <i>bioRxiv</i>. December 2017:240846. <a href="https://www.biorxiv.org/content/early/2017/12/29/240846">doi:10.1101/240846</a>');
 
+div.selectAll("div").selectAll("svg").remove(); // clean slate enables update!
+    
 div.select('#ox-plot')
     .style('width', oxFract * width + horiz(oxMargin) + 'px')
     .style('height', height + vert(oxMargin) + 'px')
