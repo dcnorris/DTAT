@@ -2,7 +2,7 @@ const protoDSplot = {
   width: 0.25 * width, 
   height: height, 
   margin: dsMargin,
-  levels: 7,
+  ndoses: data.doses.length,
 };
 
 function dsFactory(opts, proto = protoDSplot) {
@@ -31,15 +31,18 @@ function renderDSplot(opts) {
     .domain([1.0, 0.0])
     .range([0, dsPlot.width]);
 
+  const dsteps = dsPlot.ndoses - 1;
+  // TODO: Move duplicated dose-scale code up to main.js script.
   const y = d3.scaleLinear()
     .clamp(true)
-    .range(d3.range(7).map(d => ((6.1-d)*dsPlot.height/6.25)))
-    .domain([1, 2, 3, 4, 5, 6, 7]);
+    .range(d3.range(dsPlot.ndoses)
+      .map(d => ((dsteps+0.1)-d)*dsPlot.height/(dsteps+0.25)))
+    .domain(d3.range(1,dsPlot.ndoses+1));
   
   const xAxis = d3.axisBottom().scale(x);
   xAxis.tickValues(d3.range(1,-0.01,-0.2));
   const yAxis = d3.axisRight().scale(y);
-  yAxis.tickValues(d3.range(1,7+1));
+  yAxis.tickValues(d3.range(1,dsPlot.ndoses+1));
   yAxis.tickFormat(d3.format('.0f'));
 
   dsPlot.svg.append('g')
