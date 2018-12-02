@@ -3,6 +3,8 @@ const protoOXplot = {
   height: height, 
   margin: oxMargin,
   doses: data.doses,
+  Npts: data.mtd.length,
+  Nperiods: data.mtd.length/3 + 2,
 };
 
 function oxFactory(opts, proto = protoOXplot) {
@@ -27,7 +29,7 @@ function renderOXplot(opts) {
   const oxPlot = oxFactory(opts);
 
   const x = d3.scaleLinear()
-    .domain([0.5, 30.5])
+    .domain([0.5, 3*oxPlot.Nperiods+0.5])
     .range([0, oxPlot.width]);
 
   const dsteps = oxPlot.doses.length - 1;
@@ -44,7 +46,7 @@ function renderOXplot(opts) {
     .domain(oxPlot.doses);
   
   const xAxis = d3.axisBottom().scale(x);
-  xAxis.tickValues(d3.range(1,24+1));
+  xAxis.tickValues(d3.range(1,oxPlot.Npts+1));
   const yAxis = d3.axisLeft().scale(y);
   yAxis.tickValues(d3.range(1, oxPlot.doses.length+1));
 
@@ -100,10 +102,10 @@ function renderOXplot(opts) {
 
   const topAxis = d3.axisBottom().scale(
     d3.scaleLinear()
-      .domain([0.5, 10.5])
+      .domain([0.5, oxPlot.Nperiods+0.5])
       .range([0, oxPlot.width])
   );
-  topAxis.tickValues(d3.range(1,10+1));
+  topAxis.tickValues(d3.range(1,oxPlot.Nperiods+1));
 
   oxPlot.svg.append('g')
     .attr('class','axis')
@@ -121,7 +123,7 @@ function renderOXplot(opts) {
 
   // Draw the DLT assessment period boundaries
   // TODO: Consider a redo using inner axis ticks
-  const periodlines = d3.range(10).map(i => ({x:(3.5 + 3*i), per:(i+1)}));
+  const periodlines = d3.range(oxPlot.Nperiods).map(i => ({x:(3.5 + 3*i), per:(i+1)}));
   oxPlot.svg.append('g').selectAll('.period-end')
       .data(periodlines)
     .enter().append('line')
