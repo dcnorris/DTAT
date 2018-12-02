@@ -3,6 +3,8 @@ const protoOXplot = {
   height: height, 
   margin: oxMargin,
   doses: data.doses,
+  dunit: data.dunit,
+  mtds: data.mtd,
   Npts: data.mtd.length,
   Nperiods: data.mtd.length/3 + 2,
 };
@@ -76,9 +78,12 @@ function renderOXplot(opts) {
   // Thanks for the following tooltip code go to
   // http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
 //  d3.csv('data/mtd.csv', data => {
+    // TODO: Understand the scoping rules that have required me
+    //       to attach mtds and dunit to oxPlot object, instead
+    //       of having these available through -data-.
     const mtd = function(id){
-      const mtd_i = data.mtd.filter(d => d.id == id)[0].mtd;
-      return d3.format('.3f')(mtd_i) + ' ' + data.dunit;
+      const mtd_i = oxPlot.mtds.filter(d => d.id == id)[0].mtd;
+      return d3.format('.3f')(mtd_i) + ' ' + oxPlot.dunit;
     };
     oxPlot.svg.selectAll('.axis.participant .tick text')
         .on('mouseover', d => {
