@@ -8,13 +8,14 @@ Simulate a '3+3/PC' dose-titration study
 Please see the reference cited below.
 }
 \usage{
-de.sim(CV = 0.7, start.dose = 0.25, dose.jump = 0.4, N = 24, periods = N/3 + 2,
-       testing = is.null(sys.call(-1)), once = testing, ...)
+de.sim(CV = 0.7, start.dose = 0.25, dunit="mg", dose.jump = 0.4, N = 24,
+       periods = N/3 + 2, testing = is.null(sys.call(-1)), once = testing, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{CV}{Coefficient of variation for MTDi in the population}
   \item{start.dose}{Lowest dose in geometric sequence of doses to trial}
+  \item{dunit}{A string specifying the dose unit}
   \item{dose.jump}{The fractional increase between dose levels}
   \item{N}{Number of simulated subjects to enroll}
   \item{periods}{Number of DLT assessment periods to simulate}

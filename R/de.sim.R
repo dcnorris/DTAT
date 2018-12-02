@@ -1,4 +1,4 @@
-de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
+de.sim <- function(CV=0.7, start.dose=0.25, dunit="mg", dose.jump=0.4, N=24, periods=N/3+2,
                    testing=is.null(sys.call(-1)), once=testing, ...){
   # Invoked interactively, the function aims to support reproducible, interactive testing.
   # Otherwise (the intended default) it simply returns simulation summaries that the caller
@@ -59,6 +59,12 @@ de.sim <- function(CV=0.7, start.dose=0.25, dose.jump=0.4, N=24, periods=N/3+2,
   # 8. Depending on mode (-testing- or not), return whole 'de' list or 1-row data frame
   if(once) {
     attr(de, 'mtd') <- mtd
+    attr(de, 'dunit') <- dunit
+    # When '...' includes an 'n.doses' parameter, ensure that
+    # a vector of absolute doses gets attached:
+    if(!is.null(n.doses <- list(...)$n.doses)){
+      attr(de, 'doses') <- start.dose * (1+dose.jump)^(0:(n.doses-1))
+    }
     class(de) <- c("de", class(de))
     invisible(de)
   }

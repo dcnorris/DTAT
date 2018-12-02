@@ -3,6 +3,8 @@ as_d3_data.de <- function(x, ...){
   # this function assembles a data list suitable for passing in r2d3(data=).
   mtd <- attr(x,'mtd')
   data <- list(mtd = data.frame(id=1:length(mtd), mtd=mtd),
+               doses = attr(x,'doses'),
+               dunit = attr(x,'dunit'),
                trial = x[[length(x)]],
                ds = lapply(x, function(x){
                  dsc <- as.data.frame(ds.curve(x))

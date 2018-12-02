@@ -2,6 +2,7 @@ const protoDSplot = {
   width: 0.25 * width, 
   height: height, 
   margin: dsMargin,
+  levels: 7,
 };
 
 function dsFactory(opts, proto = protoDSplot) {

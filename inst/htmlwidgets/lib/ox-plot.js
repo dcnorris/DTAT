@@ -2,6 +2,7 @@ const protoOXplot = {
   width: 0.75 * width, 
   height: height, 
   margin: oxMargin,
+  doses: data.doses,
 };
 
 function oxFactory(opts, proto = protoOXplot) {
@@ -29,22 +30,26 @@ function renderOXplot(opts) {
     .domain([0.5, 30.5])
     .range([0, oxPlot.width]);
 
+  const dsteps = oxPlot.doses.length - 1;
+  
+  const y_range = d3.range(oxPlot.doses.length)
+    .map(d => (((dsteps+0.1)-d)*oxPlot.height/(dsteps+0.25)));
+  
   const y = d3.scaleOrdinal()
-    .range(d3.range(7).map(d => ((6.1-d)*oxPlot.height/6.25)))
-    .domain([1, 2, 3, 4, 5, 6, 7]);
+    .range(y_range)
+    .domain(d3.range(1, oxPlot.doses.length+1));
 
-  // TODO: Can I pass y into (), to carry range over into y2?
   const y2 = d3.scaleLog()
-    .range(d3.range(7).map(d => ((6.1-d)*oxPlot.height/6.25)))
-    .domain([0.25, 0.35, 0.49, 0.69, 0.96, 1.34, 1.88]);
+    .range(y_range)
+    .domain(oxPlot.doses);
   
   const xAxis = d3.axisBottom().scale(x);
   xAxis.tickValues(d3.range(1,24+1));
   const yAxis = d3.axisLeft().scale(y);
-  yAxis.tickValues(d3.range(1,7+1));
+  yAxis.tickValues(d3.range(1, oxPlot.doses.length+1));
 
   const y2Axis = d3.axisRight().scale(y2);
-  y2Axis.tickValues([0.25, 0.35, 0.49, 0.69, 0.96, 1.34, 1.88]);
+  y2Axis.tickValues(oxPlot.doses);
   y2Axis.tickFormat(d3.format('.2f'));
 
   oxPlot.svg.append('g')
@@ -71,7 +76,7 @@ function renderOXplot(opts) {
 //  d3.csv('data/mtd.csv', data => {
     const mtd = function(id){
       const mtd_i = data.mtd.filter(d => d.id == id)[0].mtd;
-      return d3.format('.3f')(mtd_i) + ' mg';
+      return d3.format('.3f')(mtd_i) + ' ' + data.dunit;
     };
     oxPlot.svg.selectAll('.axis.participant .tick text')
         .on('mouseover', d => {
@@ -253,7 +258,7 @@ function renderOXplot(opts) {
     .attr("y", oxPlot.width + 35)
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
-    .text("Dose (mg)");
+    .text("Dose (" + data.dunit + ")");
 
   return oxPlot;
 }
