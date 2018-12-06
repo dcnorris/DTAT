@@ -16,6 +16,13 @@ svg {
     border: 1px solid magenta;
 }
 /**/
+.sim-dist {
+    stroke: gray;
+    stroke-opacity: 0.2;
+    fill: none;
+    stroke-width: 6;
+}
+
 .surv-line {
     stroke: black;
     stroke-opacity: 0.8;

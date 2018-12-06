@@ -65,6 +65,14 @@ de.sim <- function(CV=0.7, start.dose=0.25, dunit="mg", dose.jump=0.4, N=24, per
     if(!is.null(n.doses <- list(...)$n.doses)){
       attr(de, 'doses') <- start.dose * (1+dose.jump)^(0:(n.doses-1))
     }
+    # To enable plotting of (unknown) 'true' MTDi distribution
+    # underneath the D-S plot, we attach also a vector of quantiles:
+    Q <- 50 # TODO: Try 100?
+    mtd_quantiles <- qgamma((1:(Q-1))/Q, shape=shape, scale=scale)
+    # 2. Transform these MTDi's onto the geometric dose range
+    mtd_quantiles <- 1 + log(mtd_quantiles/start.dose) / log(1+dose.jump)
+    attr(de,'mtd_quantiles') <- mtd_quantiles
+    
     class(de) <- c("de", class(de))
     invisible(de)
   }

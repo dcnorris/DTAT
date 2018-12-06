@@ -86,13 +86,35 @@ TODO:
     .y(d => y(d.dose))
     .curve(d3.curveStepBefore);
 
+  // TODO: Don't hard-code the '50'; can I extract length from fun's argument?
+  const smoothcurve = d3.line()
+    .x((d,i) => x((50-(i+1))/50))
+    .y(d => y.clamp(false)(d))
+    .curve(d3.curveLinear);
+
 //  d3.csv('data/dose-survival.csv', data => {
+    const mtd_quantiles = data.mtd_quantiles;
 
     data = d3.nest().key(d => d.period)
       .entries(data.ds)
       .map(e => e.values);
     //this.data_ds = data; // enable vetting at console
-    
+
+    // Draw the smooth cumulative distribution from which
+    // the MTDi's were simulated. For the time being, let's
+    // hard-code the fact we currently pass 49 2% quantiles.
+    // TODO: Avoid the awkwardness of having to introduce
+    //       the mtd_quantiles wrapped inside a list!
+    //       Surely, D3 must offer a more direct idiom,
+    //       when it is known that there will be a single
+    //       curve to draw.
+    dsPlot.svg.append('g').attr('class','ds-simdist')
+      .selectAll('.sim-dist')
+        .data([mtd_quantiles])
+      .enter().append('path')
+        .attr('class','sim-dist')
+        .attr('d', smoothcurve);
+
     dsPlot.svg.append('g').attr('class','ds-line')
       .selectAll('.surv-line')
         .data(data)
