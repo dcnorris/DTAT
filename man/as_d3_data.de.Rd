@@ -43,6 +43,7 @@ stopifnot(
                         doses=character(0),
                         dunit=NULL,
                         trial=c("id","period","dose","dlt"),
+                        mtd_quantiles=NULL,
                         ds=c("period","surv","lower","upper","dose")),
             current=lapply(check, names)
             )

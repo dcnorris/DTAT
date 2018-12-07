@@ -1,4 +1,4 @@
-importFrom("stats","time","uniroot")
+importFrom("stats","time","uniroot","qgamma")
 importFrom("Hmisc","label<-","upData","xYplot")
 importFrom("stats","approx","rgamma","sd")
 importFrom("utils","setTxtProgressBar","txtProgressBar")
