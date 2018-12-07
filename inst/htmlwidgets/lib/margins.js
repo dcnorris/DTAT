@@ -13,4 +13,4 @@ const horiz = m => m.left + m.right;
 const vert = m => m.top + m.bottom;
 
 width = width - horiz(oxMargin) - horiz(dsMargin);
-height = 0.9*(height - vert(oxMargin));
+height = height - vert(oxMargin);

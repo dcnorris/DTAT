@@ -7,7 +7,7 @@
 }
 
 /* Show DIV and SVG element borders for situational awareness */
-/**/
+/*
 div {
     border: 1px dashed black;
 }
@@ -15,7 +15,7 @@ div {
 svg {
     border: 1px solid magenta;
 }
-/**/
+*/
 .sim-dist {
     stroke: gray;
     stroke-opacity: 0.2;

@@ -1,13 +1,13 @@
-de.sim <- function(CV=0.7, start.dose=0.25, dunit="mg", dose.jump=0.4, N=24, periods=N/3+2,
+de.sim <- function(CV=0.7, mean_mtd=1.0, start.dose=0.25, dunit="mg", dose.jump=0.4, N=24, periods=N/3+2,
                    testing=is.null(sys.call(-1)), once=testing, ...){
   # Invoked interactively, the function aims to support reproducible, interactive testing.
   # Otherwise (the intended default) it simply returns simulation summaries that the caller
   # is supposed to be interested in aggregating.
   if(testing)
     set.seed(2017)
-  # 1. Generate N individual MTDi's from Gamma distribution with mean = 1
+  # 1. Generate N individual MTDi's from Gamma(alpha=CV^-2, beta=alpha/mean_mtd)
   shape <- CV^-2
-  scale <- 1/shape # 1 =: mean = shape*scale
+  scale <- mean_mtd/shape # for Gamma dist, mean = shape*scale = alpha/beta
   mtd <- rgamma(N, shape=shape, scale=scale)
   # 2. Transform these MTDi's onto the geometric dose range
   MTDi <- 1 + log(mtd/start.dose) / log(1+dose.jump)
