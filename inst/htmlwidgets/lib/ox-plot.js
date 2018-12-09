@@ -83,7 +83,7 @@ function renderOXplot(opts) {
     //       of having these available through -data-.
     const mtd = function(id){
       const mtd_i = oxPlot.mtds.filter(d => d.id == id)[0].mtd;
-      return d3.format('.3f')(mtd_i) + ' ' + oxPlot.dunit;
+      return d3.format('.3f')(mtd_i);
     };
     oxPlot.svg.selectAll('.axis.participant .tick text')
         .on('mouseover', d => {
@@ -93,7 +93,7 @@ function renderOXplot(opts) {
                 .style("opacity", 0.9);
             tooltip.html(`<b>MTD<sub>(i=${d})</sub> =` + mtd(d) + '</b>')
                 .style("left", (d3.event.pageX - oxPlot.margin.left + 5) + "px")
-                .style("top", (d3.event.pageY - oxPlot.margin.top + 8) + "px");
+                .style("top", (d3.event.pageY - oxPlot.margin.top + 20) + "px");
           })
         .on('mouseout', d => {
             unshowSeries(d);
@@ -165,6 +165,10 @@ function renderOXplot(opts) {
       .classed('salient', true);
     oxPlot.svg.selectAll('.trace[participant="'+pid+'"]')
       .classed('salient', true);
+    //dsPlot.svg.selectAll('.ds-line path')
+    //  .style('visibility','hidden');
+    dsPlot.svg.selectAll('.ds-pointer path[participant="'+pid+'"]')
+      .style('visibility', 'visible');
   };
 
   const unshowSeries = function(pid) {
@@ -175,6 +179,8 @@ function renderOXplot(opts) {
       .classed('salient', false);
     oxPlot.svg.selectAll('.trace[participant="'+pid+'"]')
       .classed('salient', false);
+    dsPlot.svg.selectAll('.ds-pointer path[participant="'+pid+'"]')
+      .style('visibility', 'hidden');
   };
 
   const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;

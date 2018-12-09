@@ -137,6 +137,7 @@ TODO:
       .enter().append('path')
         .attr('class','mtd-pointer')
         .attr('d', mtd_pointer)
+        .attr('visibility','hidden')
         .attr('participant', (d,i) => i+1)
         .attr('stroke', (d,i) => colorForID(i+1));
 
