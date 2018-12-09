@@ -86,6 +86,10 @@ TODO:
     .y(d => y(d.dose))
     .curve(d3.curveStepBefore);
 
+  const mtd_pointer = d3.line()
+    .y(d => y(d.mtd))
+    .x(d => x(d.F));
+
   // TODO: Don't hard-code the '50'; can I extract length from fun's argument?
   const smoothcurve = d3.line()
     .x((d,i) => x((50-(i+1))/50))
@@ -94,7 +98,10 @@ TODO:
 
 //  d3.csv('data/dose-survival.csv', data => {
     const mtd_quantiles = data.mtd_quantiles;
+    const mtds = data.mtd;
 
+    // TODO: Avoid overwriting -data- here, thereby obviating
+    //       the need to preserve several components as above.
     data = d3.nest().key(d => d.period)
       .entries(data.ds)
       .map(e => e.values);
@@ -114,6 +121,22 @@ TODO:
       .enter().append('path')
         .attr('class','sim-dist')
         .attr('d', smoothcurve);
+
+    // Plot a horizontal arrow for each MTDi
+    // 1. Generate the data needed to DRIVE the viz!
+    // I have to map mtdis here somehow, but let me first hard-code it!
+    const pointers = [[
+      {F: 1.0, mtd: 1.789},
+      {F: 0.2, mtd: 1.789},
+      ]];
+    dsPlot.svg.append('g').attr('class','ds-pointer')
+      .selectAll('.mtd-pointer')
+        .data(pointers)
+      .enter().append('path')
+        .attr('class','mtd-pointer')
+        .attr('d', mtd_pointer)
+        .attr('participant', (d,i) => i+1)
+        .attr('stroke', (d,i) => colorForID(i+1));
 
     dsPlot.svg.append('g').attr('class','ds-line')
       .selectAll('.surv-line')
