@@ -38,6 +38,13 @@ svg {
     stroke-width: 1;
 }
 
+.mtd-pointer {
+    stroke-dasharray: 3,1;
+    stroke-opacity: 0.5;
+    fill: none;
+    stroke-width: 3;
+}
+
 .bypass-rule {
     stroke: green;
     stroke-width: 0.4;
@@ -52,7 +59,6 @@ svg {
     fill-opacity: 0.0;
     stroke-width: 3;
     stroke-opacity: 0.7;
-    stroke-width: 3;
     fill: white;
 }
 

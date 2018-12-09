@@ -83,7 +83,7 @@ function renderOXplot(opts) {
     //       of having these available through -data-.
     const mtd = function(id){
       const mtd_i = oxPlot.mtds.filter(d => d.id == id)[0].mtd;
-      return d3.format('.3f')(mtd_i) + ' ' + oxPlot.dunit;
+      return d3.format('.3f')(mtd_i); // + ' ' + oxPlot.dunit;
     };
     oxPlot.svg.selectAll('.axis.participant .tick text')
         .on('mouseover', d => {
@@ -93,7 +93,7 @@ function renderOXplot(opts) {
                 .style("opacity", 0.9);
             tooltip.html(`<b>MTD<sub>(i=${d})</sub> =` + mtd(d) + '</b>')
                 .style("left", (d3.event.pageX - oxPlot.margin.left + 5) + "px")
-                .style("top", (d3.event.pageY - oxPlot.margin.top + 8) + "px");
+                .style("top", (d3.event.pageY - oxPlot.margin.top + 20) + "px");
           })
         .on('mouseout', d => {
             unshowSeries(d);
@@ -165,6 +165,10 @@ function renderOXplot(opts) {
       .classed('salient', true);
     oxPlot.svg.selectAll('.trace[participant="'+pid+'"]')
       .classed('salient', true);
+    //dsPlot.svg.selectAll('.ds-line path')
+    //  .style('visibility','hidden');
+    dsPlot.svg.selectAll('.ds-pointer path[participant="'+pid+'"]')
+      .style('visibility', 'visible');
   };
 
   const unshowSeries = function(pid) {
@@ -175,9 +179,10 @@ function renderOXplot(opts) {
       .classed('salient', false);
     oxPlot.svg.selectAll('.trace[participant="'+pid+'"]')
       .classed('salient', false);
+    dsPlot.svg.selectAll('.ds-pointer path[participant="'+pid+'"]')
+      .style('visibility', 'hidden');
   };
 
-  const cohort = id => Math.floor((+id - 1) / 3) + 1;
   const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
 
   const ptMarker = d3.symbol()
@@ -190,8 +195,6 @@ function renderOXplot(opts) {
 
   const takeUnique = function(v, i, a) { return a.indexOf(v) === i };
 
-  // Colors from brewer.pal(4,"Dark2")
-  const colorCycle = ['#1B9E77','#D95F02','#7570B3','#E7298A'];
 //  d3.csv('data/trial.csv', data => {
     // -jitters- maps (period, dose) keys to arrays of cohort numbers
     const jitters = d3.nest().key(d => d.period).key(d => d.dose)
@@ -219,12 +222,11 @@ function renderOXplot(opts) {
       const yOffset = 10*spread[pdcohs.indexOf(cohort(i.id))];
       var abscissa = x((i.id-1)%3 + 3*(i.period-1) + 1);
       var ordinate = y(+i.dose) + yOffset;
-      var color = colorCycle[`${(cohort(i.id)-1) % 4}`];
       oxPlot.svg.append('path')
           .datum({per: `${i.period}`}) // TODO: Use .data() idiom
           .attr('class', 'dosemarker')
           .attr('d', ptMarker(i))
-          .attr('stroke', `${color}`)
+          .attr('stroke', colorForID(i.id))
           .attr('transform', `translate(${abscissa}, ${ordinate})`)
           .attr('period', `${i.period}`)
           .attr('participant', `${i.id}`)

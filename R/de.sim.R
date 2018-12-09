@@ -58,7 +58,16 @@ de.sim <- function(CV=0.7, mean_mtd=1.0, start.dose=0.25, dunit="mg", dose.jump=
   }
   # 8. Depending on mode (-testing- or not), return whole 'de' list or 1-row data frame
   if(once) {
-    attr(de, 'mtd') <- mtd
+    # To facilitate visualization, let me deliver 'mtd' not as
+    # a mere vector, but as a data frame. For each id, it should
+    # give -absolute-, -scaled- and -fraction tolerant- of the MTDi.
+    mtd_df <- data.frame(
+      id = seq_along(mtd)
+      ,mtd = mtd
+      ,doscale = 1 + log(mtd/start.dose) / log(1+dose.jump)
+      ,fractol = 1 - pgamma(mtd, shape=shape, scale=scale)
+    )
+    attr(de, 'mtd') <- mtd_df
     attr(de, 'dunit') <- dunit
     # When '...' includes an 'n.doses' parameter, ensure that
     # a vector of absolute doses gets attached:

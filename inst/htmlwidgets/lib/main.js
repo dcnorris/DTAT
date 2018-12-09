@@ -28,6 +28,13 @@ div.select('#ds-plot')
     .style('top', 0+'px')
     .style('left', oxFract * width + horiz(oxMargin) + 'px');
 
+// Establish some shared infrastructure to unify OX & DS
+// TODO: Factor lots more 'infrastructure' up here, e.g. shared axes.
+const cohort = id => Math.floor((+id - 1) / 3) + 1;
+// Colors from brewer.pal(4,"Dark2")
+const colorCycle = ['#1B9E77','#D95F02','#7570B3','#E7298A'];
+const colorForID = id => colorCycle[(cohort(id)-1) % colorCycle.length];
+
 // TODO: Consider passing the appropriate DIVs to these 'render*' functions.
 //       This would insulate these functions from need for esoteric knowledge
 //       of the -div- variable!
