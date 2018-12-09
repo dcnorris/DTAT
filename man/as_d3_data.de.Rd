@@ -39,7 +39,7 @@ data <- as_d3_data.de(de)
 ## Read 'data' back into a list and check a few things
 check <- jsonlite::fromJSON(data)
 stopifnot(
-  all.equal(target=list(mtd=c("id","mtd"),
+  all.equal(target=list(mtd=c("id","mtd","doscale","fractol"),
                         doses=character(0),
                         dunit=NULL,
                         trial=c("id","period","dose","dlt"),

@@ -122,13 +122,15 @@ TODO:
         .attr('class','sim-dist')
         .attr('d', smoothcurve);
 
-    // Plot a horizontal arrow for each MTDi
-    // 1. Generate the data needed to DRIVE the viz!
-    // I have to map mtdis here somehow, but let me first hard-code it!
-    const pointers = [[
-      {F: 1.0, mtd: 1.789},
-      {F: 0.2, mtd: 1.789},
-      ]];
+    // Draw 'mtd-pointers' mapping the DS curve relation for each participant.
+    // TODO: Show on mouseover only!
+    // TODO: Attach arrowhead pointing to OX plot's (absolute) dose axis.
+    // TODO: Write the absolute dose beside the arrowhead.
+    const pointers = mtds.map(d => [
+      {F: 1.2, mtd: d.doscale},
+      {F: d.fractol, mtd: d.doscale},
+      {F: d.fractol, mtd: 0.84}, // horiz axis sits slightly below dose=1
+    ]);
     dsPlot.svg.append('g').attr('class','ds-pointer')
       .selectAll('.mtd-pointer')
         .data(pointers)
