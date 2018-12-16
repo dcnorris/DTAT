@@ -1,8 +1,8 @@
 Package: DTAT
 Type: Package
 Title: Dose Titration Algorithm Tuning: a framework for dose individualization
-Version: 0.2-3
-Date: 2018-12-09
+Version: 0.3-0
+Date: 2018-12-29
 Authors@R: person("David C.", "Norris"
                  , role = c("aut", "cre")
                  , email = "david@precisionmethods.guru"
