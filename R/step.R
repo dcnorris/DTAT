@@ -17,10 +17,13 @@
 #' @param n.doses When specified, prevents escalation to (n+1)th dose
 #' @return A data frames summarizing the events of a dose-titration study up to
 #' a given DLT assessment period, having columns as follows: \itemize{
-#' \itemidInteger: participants are numbered in order of enrollment, starting
-#' from 1 \itemperiodInteger: DLT assessment periods of the study, numbered
-#' from 1 \itemdoseInteger: dose level received by \code{id} during
-#' \code{period} \itemdltLogical: did participant \code{id} experience a DLT
+#' \item id Integer: participants are numbered in order of enrollment, starting
+#' from 1
+#'  \item period Integer: DLT assessment periods of the study, numbered
+#' from 1
+#'  \item dose Integer: dose level received by \code{id} during
+#' \code{period}
+#'  \item dlt Logical: did participant \code{id} experience a DLT
 #' during \code{period}? }
 #' @author David C. Norris
 #' @seealso \code{\link{de.sim}} invokes \code{step} to simulate a full study.
@@ -28,6 +31,8 @@
 #' Designs. bioRxiv. December 2017:240846. doi:10.1101/240846.
 #' \url{https://www.biorxiv.org/content/early/2017/12/29/240846}
 #' @keywords datagen
+#' @importFrom stats aggregate
+#' @export
 step <- function(de, MTDi, verbose=is.null(sys.call(-1)), n.doses = Inf){
   # 0. Handle the base case
   if(is.null(de)){

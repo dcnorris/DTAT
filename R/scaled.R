@@ -7,5 +7,6 @@
 #' @param a A numeric exponent for power-law rescaling
 #' @return A rescaled vector of doses
 #' @author David C. Norris
+#' @export
 scaled <-
 function(dose, a=4.0) dose^(1/a)

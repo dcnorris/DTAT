@@ -3,18 +3,21 @@
 #' Perform neutrophil-guided dose titration of a chemotherapy drug.
 #' 
 #' 
-#' @param draw.days %% ~~Describe \code{draw.days} here~~
-#' @param Tcyc %% ~~Describe \code{Tcyc} here~~
-#' @param Ncycles %% ~~Describe \code{Ncycles} here~~
-#' @param doserange %% ~~Describe \code{doserange} here~~
+#' @param draw.days TODO: Describe \code{draw.days} here~~
+#' @param Tcyc TODO: Describe \code{Tcyc} here~~
+#' @param Ncycles TODO: Describe \code{Ncycles} here~~
+#' @param doserange TODO: Describe \code{doserange} here~~
 #' @param dta A Dose Titration Algorithm (DTA) to drive the titration
-#' @return A list with 2 components: \item{course}{A data frame containing
-#' cycle-wise measures of each id's titration course} \item{anc.ts}{A data
-#' frame detailing hourly ANC measures for each id}
+#' @return A list with 2 components:
+#'  \item{course}{A data frame containing cycle-wise measures
+#'   of each id's titration course}
+#'  \item{anc.ts}{A data frame detailing hourly ANC measures for each id}
 #' @note TODO: Once I've implemented several nontrivial dosing algorithms, I
 #' should consider whether the 'doserange' case ought to be handled by a
 #' special non-adaptive DTA.
 #' @author David C. Norris
+#' @importFrom Hmisc label<- upData
+#' @export
 titrate <-
 function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10,
          doserange=c(50,500), dta=NULL) {

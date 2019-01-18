@@ -21,6 +21,9 @@
 #' Designs. bioRxiv. December 2017:240846. doi:10.1101/240846.
 #' \url{https://www.biorxiv.org/content/early/2017/12/29/240846}
 #' @keywords hplot
+#' @importFrom Hmisc xYplot
+#' @importFrom RColorBrewer brewer.pal
+#' @export
 OXplot <- function(de, tox.pending=FALSE, periods=max(de$period), top.dose=max(de$dose),
                    ox.col=brewer.pal(4,"Dark2")){
   esc.stop <- min(Inf, attr(de,'stop.esc'))

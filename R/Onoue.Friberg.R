@@ -37,6 +37,7 @@
 #' ##-- ==>  Define data, use random,
 #' ##--	or do  help(data=index)  for the standard data sets.
 #' 
+#' @export
 Onoue.Friberg <-
 function(N, cycle.length.days=21,
          data=data.frame(time=c(seq(0.0, 1.95, 0.05), # q3min for 2h, 

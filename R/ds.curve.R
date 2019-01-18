@@ -14,6 +14,8 @@
 #' each containing a vector that can be indexed by dose level.
 #' @author David C. Norris
 #' @seealso \code{\link{dose.survfit}}
+#' @importFrom stats approx
+#' @export
 ds.curve <- function(de, ...){
   # 2. Get survfit
   fit <- dose.survfit(de, ...)

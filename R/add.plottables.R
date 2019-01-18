@@ -13,6 +13,7 @@
 #' @author David C. Norris
 #' @seealso \code{\link{OXplot}}
 #' @keywords hplot
+#' @export
 add.plottables <- function(de, tox.pending=FALSE){
   de <- upData(de
                ,cohort = factor((id-1) %/% 3 + 1)

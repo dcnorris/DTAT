@@ -37,6 +37,8 @@
 #'     df
 #'   }
 #' 
+#' @importFrom utils setTxtProgressBar txtProgressBar
+#' @export
 ensemble <- function(K=10, ...){
   pb <- txtProgressBar(max=K, style=3)
   df <- de.sim(...)

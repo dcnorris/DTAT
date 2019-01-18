@@ -21,6 +21,8 @@
 #' # evenly spaced on a fourth-root scale:
 #' seq(function(dose, a=4.0) dose^(1/a), from=100, to=1000, length.out=6, digits=0)
 #' 
+#' @importFrom stats uniroot
+#' @export
 seq.function <-
 function(scalefun, from, to, length.out, digits=NULL, ...){
   x <- seq(from=scalefun(from), to=scalefun(to), length.out=length.out)

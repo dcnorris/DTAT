@@ -16,11 +16,15 @@
 #' @param \dots Additional arguments passed to function \code{step}
 #' @return When once=TRUE, a list of data frames summarizing the events of a
 #' dose-titration study up to a given DLT assessment period. Thus,
-#' \code{de[[3]]} is a data frame with columns as follows: \itemize{
-#' \itemidInteger: participants are numbered in order of enrollment, starting
-#' from 1 \itemperiodInteger: DLT assessment periods of the study, numbered
-#' from 1 \itemdoseInteger: dose level received by \code{id} during
-#' \code{period} \itemdltLogical: did participant \code{id} experience a DLT
+#' \code{de[[3]]} is a data frame with columns as follows:
+#'  \itemize{
+#' \item id Integer: participants are numbered in order of enrollment, starting
+#' from 1
+#' \item period Integer: DLT assessment periods of the study, numbered
+#' from 1
+#' \item dose Integer: dose level received by \code{id} during
+#' \code{period}
+#' \item dlt Logical: did participant \code{id} experience a DLT
 #' during \code{period}? } For periods after dose escalation stops, a
 #' 'stop.esc' attribute will be attached to subsequent period elements. Thus,
 #' if escalation stops at the end of period 7, \code{attr(de[[8]],'stop.esc')}
@@ -44,6 +48,9 @@
 #' data(de.bioRxiv.240846)
 #' stopifnot(identical(de.compare, de.bioRxiv.240846))
 #' 
+#' @importFrom stats pgamma qgamma rgamma sd
+#' @importFrom zipfR Rgamma
+#' @export
 de.sim <- function(CV=0.7, mean_mtd=1.0, start.dose=0.25, dunit="mg", dose.jump=0.4, N=24, periods=N/3+2,
                    testing=is.null(sys.call(-1)), once=testing, ...){
   # Invoked interactively, the function aims to support reproducible, interactive testing.

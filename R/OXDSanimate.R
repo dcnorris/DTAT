@@ -26,6 +26,7 @@
 #' saveVideo(OXDSanimate(de)) # produces file "animation.mp4"
 #' }
 #' 
+#' @export
 OXDSanimate <- function(de){
   periods <- max(last(de)$period)
   top.dose <- max(last(de)$dose)

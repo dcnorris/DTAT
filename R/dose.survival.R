@@ -12,6 +12,8 @@
 #' @author David C. Norris
 #' @seealso \code{\link{dose.survfit}}
 #' @keywords survival
+#' @importFrom stats aggregate
+#' @export
 dose.survival <- function(de){
   suppressMessages({
     L <- aggregate(dose ~ id, data=de, FUN=max, subset=!de$dlt)

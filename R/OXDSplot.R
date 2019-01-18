@@ -18,6 +18,7 @@
 #' Designs. bioRxiv. December 2017:240846. doi:10.1101/240846.
 #' \url{https://www.biorxiv.org/content/early/2017/12/29/240846}
 #' @keywords hplot survival
+#' @export
 OXDSplot <- function(de, tox.pending=FALSE, periods=max(de$period),
                      top.dose=max(de$dose), ox.width=0.7){
   ylim <- range(de$dose) + c(-0.5, 0.5) # xyplot.survfit default is insufficient

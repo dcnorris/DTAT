@@ -17,6 +17,8 @@
 #' chemotherapy.
 #' @author David C. Norris
 #' @seealso \code{\link{titrate}}
+#' @importFrom stats uniroot
+#' @export
 newton.raphson <- function(dose1, omega, slope1, slopeU){
   dta <- function(id, cycle, course){ # ..which stands for 'Dose Titration Algorithm' of course!
     # The data frame 'course' is assumed to have columns: 'cycle','id','scaled.dose','CircMin'

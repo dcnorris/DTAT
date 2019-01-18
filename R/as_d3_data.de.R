@@ -36,6 +36,9 @@
 #'             )
 #' )
 #' 
+#' @importFrom r2d3 as_d3_data
+#' @importFrom data.table rbindlist
+#' @export
 as_d3_data.de <- function(x, ...){
   # Provided a multi-period 'de' object as returned by de.sim(testing=TRUE),
   # this function assembles a data list suitable for passing in r2d3(data=).

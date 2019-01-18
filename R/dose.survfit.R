@@ -51,6 +51,8 @@
 #'     fit <- km.ci(fit, method = method, conf.level = getOption("ds.conf.level"))
 #'   }
 #' 
+#' @importFrom km.ci km.ci
+#' @export
 dose.survfit <- function(de, method="rothman", avoid.degeneracy=TRUE){
   # To avoid degeneracy, plant an artificial DLT at lowest dose (unless already present!)
   # and also do the converse (artificial 'O') at highest dose when it shows only DLTs.

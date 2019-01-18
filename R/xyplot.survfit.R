@@ -15,6 +15,8 @@
 #' @author David C. Norris
 #' @seealso \code{\link{ds.curve}}
 #' @keywords hplot methods
+#' @importFrom survival survfit
+#' @export
 xyplot.survfit <- function(x, data=NULL, ylim=NULL, ...){
   fit <- x # rename the S3 generic argument
   # 1. Lay out axes with appropriate limits and labels
