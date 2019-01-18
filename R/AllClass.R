@@ -94,8 +94,8 @@ setMethod("step_time", "DE",
         crossings <- aggregate(dlt ~ id, data=last2, FUN=function(dlt) sum(dlt)==1)
         cross.ids <- crossings[crossings$dlt,]$id
         follow <- last[!(last$id %in% cross.ids) & !(last$dose==1 & last$dlt),]
-        all.dlt <- aggregate(dlt ~ id, data=de, FUN=all)
-        min.dose <- aggregate(dose ~ id, data=de, FUN=min)
+        all.dlt <- aggregate(dlt ~ id, data=x, FUN=all)
+        min.dose <- aggregate(dose ~ id, data=x, FUN=min)
         reduce.ids <- intersect(all.dlt[all.dlt$dlt,]$id, min.dose[min.dose$dose>1,]$id)
         # Verify that all reduce.ids are retained in 'follow':
         stopifnot(all(reduce.ids %in% follow$id))
