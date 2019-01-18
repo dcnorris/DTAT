@@ -1,4 +1,20 @@
 # Create a *lattice* version of the base graphics 'plot.survfit'
+
+
+#' Plot a dose-survival curve with its confidence bounds
+#' 
+#' Accept a \code{survfit} object, and plot 'dose-survival curve' in the form
+#' of a complementary cumulative distribution function of dose tolerability.
+#' 
+#' 
+#' @param x An object of class \code{survfit}
+#' @param data Unused; included for S3 generic/method consistency.
+#' @param ylim Passed through to xyplot
+#' @param \dots Passed through to xyplot
+#' @return A \code{lattice} plot
+#' @author David C. Norris
+#' @seealso \code{\link{ds.curve}}
+#' @keywords hplot methods
 xyplot.survfit <- function(x, data=NULL, ylim=NULL, ...){
   fit <- x # rename the S3 generic argument
   # 1. Lay out axes with appropriate limits and labels

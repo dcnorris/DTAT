@@ -1,11 +1,10 @@
 #' <Add Title>
-#'
-#' This is just a placeholder at this point, to support a future
-#' implementation of the 3+3/PC visualization as an 'htmlwidget'.
-#'
-#' @import htmlwidgets
-#'
-#' @export
+#' 
+#' This is just a placeholder at this point, to support a future implementation
+#' of the 3+3/PC visualization as an 'htmlwidget'.
+#' 
+#' 
+#' @export oxds
 oxds <- function(message, width = NULL, height = NULL, elementId = NULL) {
 
   # forward options using x

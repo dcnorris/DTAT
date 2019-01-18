@@ -1,5 +1,17 @@
 # Construct a Surv object from a dose-escalation experiment,
 # using interval-censoring constructs a la type='interval2'
+
+
+#' Extract interval-censored dose tolerance data from a dose titration study
+#' 
+#' Extract interval-censored dose tolerance data from a dose titration study
+#' 
+#' 
+#' @param de A data frame describing a dose-titration study
+#' @return A \code{Surv} object of type='interval2'
+#' @author David C. Norris
+#' @seealso \code{\link{dose.survfit}}
+#' @keywords survival
 dose.survival <- function(de){
   suppressMessages({
     L <- aggregate(dose ~ id, data=de, FUN=max, subset=!de$dlt)

@@ -1,3 +1,22 @@
+#' A dose titration algorithm (DTA) 'factory' based on the Newton-Raphson
+#' heuristic
+#' 
+#' This higher-order ('factory') function produces a simple dose titration
+#' algorithm for neutrophil-guided chemotherapy dosing.
+#' 
+#' This function manifests the core concept of Dose Titration Algorithm Tuning
+#' by delivering an objectively realized 'DTA'. It therefore enables a variety
+#' of DTAs to be implemented and compared.
+#' 
+#' @param dose1 The starting dose for titration
+#' @param omega A relaxation parameter used to moderate dose increments
+#' @param slope1 Dose-response slope assumed prior to 2nd measured neutrophil
+#' nadir
+#' @param slopeU Upper bound imposed on slope estimates
+#' @return A dose titration function that advises dose for next cycle of
+#' chemotherapy.
+#' @author David C. Norris
+#' @seealso \code{\link{titrate}}
 newton.raphson <- function(dose1, omega, slope1, slopeU){
   dta <- function(id, cycle, course){ # ..which stands for 'Dose Titration Algorithm' of course!
     # The data frame 'course' is assumed to have columns: 'cycle','id','scaled.dose','CircMin'

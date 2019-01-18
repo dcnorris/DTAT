@@ -1,3 +1,18 @@
+#' Attach plottable variables to a dose-titration study
+#' 
+#' Prepare a dose-titration study data frame for plotting.
+#' 
+#' 
+#' @param de A data frame describing a dose-titration study.
+#' @param tox.pending Set TRUE to show last-period DLT assessments pending
+#' @return A data frame derived from \code{de}, with additional columns as
+#' follows: \item{cohort}{Factor identifying each participant's cohort}
+#' \item{x}{Horizontal position at which to plot participant on OXplot}
+#' \item{pch}{Integer ASCII code for participant's plotting character (per
+#' period)}
+#' @author David C. Norris
+#' @seealso \code{\link{OXplot}}
+#' @keywords hplot
 add.plottables <- function(de, tox.pending=FALSE){
   de <- upData(de
                ,cohort = factor((id-1) %/% 3 + 1)

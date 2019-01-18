@@ -1,3 +1,56 @@
+#' Calculate a dose-survival curve from a dose titration study, adding a
+#' confidence band
+#' 
+#' The 'dose-survival curve' is nothing other than an empirical cumulative
+#' distribution for MTDi in the sampled population. The term 'survival' is
+#' suggested in part by our application of the Kaplan-Meier estimator to
+#' interval-censored toxicity information.
+#' 
+#' TODO: Describe details of degeneracy avoidance, once these have stabilized.
+#' 
+#' @param de A dose titration experiment of the form produced by \code{de.sim}
+#' @param method The method to be used by \code{package:km.ci} when calculating
+#' CI
+#' @param avoid.degeneracy When TRUE, this parameter directs the function to
+#' introduce artificial events into the dose titration experiment, to avoid
+#' degeneracies at the lower and upper ends of the dose-survival curve.
+#' @return An object of class \code{survfit}.
+#' @author David C. Norris
+#' @seealso \code{\link{dose.survival}}, ~~~
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' ##---- Should be DIRECTLY executable !! ----
+#' ##-- ==>  Define data, use random,
+#' ##--	or do  help(data=index)  for the standard data sets.
+#' 
+#' ## The function is currently defined as
+#' function (de, method = "rothman", avoid.degeneracy = TRUE) 
+#' {
+#'     artif.x <- 0.5
+#'     artif.o <- 0.25
+#'     weights <- rep(1, length(unique(de$id)))
+#'     if (avoid.degeneracy) {
+#'         if (with(de, !sum(dlt[dose == 1]))) {
+#'             de <- rbind(data.frame(id = 0, period = 0, dose = 1, 
+#'                 dlt = TRUE), de)
+#'             weights <- c(artif.x, weights)
+#'         }
+#'         if (with(subset(de, dose == max(dose)), all(dlt))) {
+#'             de <- rbind(de, data.frame(id = Inf, period = max(de$period), 
+#'                 dose = max(de$dose), dlt = FALSE))
+#'             weights <- c(weights, artif.o)
+#'         }
+#'     }
+#'     de.inspect <<- de
+#'     S <- dose.survival(de)
+#'     S.inspect <<- S
+#'     fit <- survfit(S ~ 1, weights = weights)
+#'     fit.inspect <<- fit
+#'     stopifnot(max(fit$time) == max(de$dose) || !avoid.degeneracy)
+#'     fit <- km.ci(fit, method = method, conf.level = getOption("ds.conf.level"))
+#'   }
+#' 
 dose.survfit <- function(de, method="rothman", avoid.degeneracy=TRUE){
   # To avoid degeneracy, plant an artificial DLT at lowest dose (unless already present!)
   # and also do the converse (artificial 'O') at highest dose when it shows only DLTs.

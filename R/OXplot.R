@@ -1,4 +1,26 @@
 # TODO: Support display of *absolute* dose [mg] on right-hand axis?
+
+
+#' Visualize the 'percolation' through the dose levels of a 3+3/PC titration
+#' study
+#' 
+#' Visualize participants' 'percolation' through the dose levels of a 3+3/PC
+#' titration study
+#' 
+#' 
+#' @param de A data frame describing a dose-titration study
+#' @param tox.pending Set TRUE to show last-period DLT assessment pending
+#' @param periods Number of periods of \code{de} to show
+#' @param top.dose Highest dose level to show on the plot
+#' @param ox.col Colors to cycle through to help discriminate enrolled cohorts
+#' @return A \code{lattice} plot
+#' @author David C. Norris
+#' @seealso \code{\link{OXDSplot}} uses \code{OXplot} in its full and proper
+#' context; please consult its documentation for full details
+#' @references Norris DC. Precautionary Coherence Unravels Dose Escalation
+#' Designs. bioRxiv. December 2017:240846. doi:10.1101/240846.
+#' \url{https://www.biorxiv.org/content/early/2017/12/29/240846}
+#' @keywords hplot
 OXplot <- function(de, tox.pending=FALSE, periods=max(de$period), top.dose=max(de$dose),
                    ox.col=brewer.pal(4,"Dark2")){
   esc.stop <- min(Inf, attr(de,'stop.esc'))

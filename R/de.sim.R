@@ -1,3 +1,49 @@
+#' Simulate a '3+3/PC' dose-titration study
+#' 
+#' Please see the reference cited below.
+#' 
+#' 
+#' @param CV Coefficient of variation for MTDi in the population
+#' @param mean_mtd Mean MTDi in the population
+#' @param start.dose Lowest dose in geometric sequence of doses to trial
+#' @param dunit A string specifying the dose unit
+#' @param dose.jump The fractional increase between dose levels
+#' @param N Number of simulated subjects to enroll
+#' @param periods Number of DLT assessment periods to simulate
+#' @param testing This parameter helps differentiate function behavior (type of
+#' value returned) appropriately to interactive vs programmed invocation
+#' @param once When TRUE, does a single simulation returning \code{de} object
+#' @param \dots Additional arguments passed to function \code{step}
+#' @return When once=TRUE, a list of data frames summarizing the events of a
+#' dose-titration study up to a given DLT assessment period. Thus,
+#' \code{de[[3]]} is a data frame with columns as follows: \itemize{
+#' \itemidInteger: participants are numbered in order of enrollment, starting
+#' from 1 \itemperiodInteger: DLT assessment periods of the study, numbered
+#' from 1 \itemdoseInteger: dose level received by \code{id} during
+#' \code{period} \itemdltLogical: did participant \code{id} experience a DLT
+#' during \code{period}? } For periods after dose escalation stops, a
+#' 'stop.esc' attribute will be attached to subsequent period elements. Thus,
+#' if escalation stops at the end of period 7, \code{attr(de[[8]],'stop.esc')}
+#' will equal 7, and this will be true for all subsequent periods as well.
+#' 
+#' When testing=FALSE, a simple summary result is returned, suitable for
+#' aggregating an ensemble of simulations.
+#' @author David C. Norris
+#' @seealso \code{\link{step}}, which \code{de.sim} calls recursively
+#' @references Norris DC. Precautionary Coherence Unravels Dose Escalation
+#' Designs. bioRxiv. December 2017:240846. doi:10.1101/240846.
+#' \url{https://www.biorxiv.org/content/early/2017/12/29/240846}
+#' @keywords datagen
+#' @examples
+#' 
+#' # Perform a regression test for package:DTAT
+#' de.compare <- de.sim(testing=TRUE)
+#' # Strip down to basics from v0.2-1
+#' attributes(de.compare) <- NULL
+#' class(de.compare) <- "list"
+#' data(de.bioRxiv.240846)
+#' stopifnot(identical(de.compare, de.bioRxiv.240846))
+#' 
 de.sim <- function(CV=0.7, mean_mtd=1.0, start.dose=0.25, dunit="mg", dose.jump=0.4, N=24, periods=N/3+2,
                    testing=is.null(sys.call(-1)), once=testing, ...){
   # Invoked interactively, the function aims to support reproducible, interactive testing.
