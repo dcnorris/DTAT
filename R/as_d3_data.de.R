@@ -22,7 +22,7 @@
 #' 
 #' library(DTAT)
 #' de <- de.sim(testing=TRUE)
-#' data <- as_d3_data.de(de)
+#' data <- as_d3_data(de)
 #' ## Read 'data' back into a list and check a few things
 #' check <- jsonlite::fromJSON(data)
 #' stopifnot(
@@ -37,6 +37,7 @@
 #' )
 #' 
 #' @importFrom r2d3 as_d3_data
+#' @export as_d3_data
 #' @importFrom data.table rbindlist
 #' @export
 as_d3_data.de <- function(x, ...){

@@ -225,6 +225,7 @@ NULL
 #' lines start with a non-whitespace character.  \item Records are separated by
 #' one or more empty lines. }
 #' 
+#' @export
 #' @name sim
 #' @docType data
 #' @keywords datasets
