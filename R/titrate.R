@@ -17,6 +17,7 @@
 #' special non-adaptive DTA.
 #' @author David C. Norris
 #' @importFrom Hmisc label<- upData
+#' @importFrom stats time
 #' @export
 titrate <-
 function(draw.days=NULL, Tcyc=3*7*24, Ncycles=10,
