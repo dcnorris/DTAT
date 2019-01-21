@@ -61,6 +61,9 @@ setMethod("step_time", "DE",
           if(verbose && undo.esc) cat("Whoa! Backing away from a too-high dose", domax, "\n")
         }
       }
+      else {
+        stop.esc <- x@stop_esc
+      }
       if(verbose) cat("stop.esc =", stop.esc, "\n")
       # 1. Obtain the *last* period in de, 'sufficient' for intra-individual escalation decisions
       permax <- max(x@data$period)
@@ -94,8 +97,8 @@ setMethod("step_time", "DE",
         crossings <- aggregate(dlt ~ id, data=last2, FUN=function(dlt) sum(dlt)==1)
         cross.ids <- crossings[crossings$dlt,]$id
         follow <- last[!(last$id %in% cross.ids) & !(last$dose==1 & last$dlt),]
-        all.dlt <- aggregate(dlt ~ id, data=x, FUN=all)
-        min.dose <- aggregate(dose ~ id, data=x, FUN=min)
+        all.dlt <- aggregate(dlt ~ id, data=x@data, FUN=all)
+        min.dose <- aggregate(dose ~ id, data=x@data, FUN=min)
         reduce.ids <- intersect(all.dlt[all.dlt$dlt,]$id, min.dose[min.dose$dose>1,]$id)
         # Verify that all reduce.ids are retained in 'follow':
         stopifnot(all(reduce.ids %in% follow$id))
@@ -124,7 +127,7 @@ setMethod("step_time", "DE",
       }
       # 6. Add any new subjects at lowest (remaining) dose
       n <- length(unique(x@data$id))
-      if(length(x@MTDi) > x@doses[n]){
+      if(length(x@MTDi) > n){
         enroll.ids <- (n+1):min(n+3, length(x@MTDi))
         # Extract info from df on whether DLTs occur at enrolling.dose
         enroll <- data.frame(id=enroll.ids,
@@ -136,7 +139,7 @@ setMethod("step_time", "DE",
       # 7. Return new value of de
       if(stop.esc && is.na(x@stop_esc)){
         if(verbose) cat("Setting 'stop.esc' attribute <-", permax, "\n")
-        x@stop_esc <- permax
+        x@stop_esc <- as.integer(permax)
       }
       x@data <- rbind(x@data, follow)
       x
@@ -182,6 +185,15 @@ test.DE <- function(seed=2017, CV=0.7, mean_mtd=1.0,
   N <- 24
   mtd <- rgamma(N, shape=shape, scale=scale)
   trial <- new("DE", doses=0.25*1.4^(0:6), MTDi=mtd)
-  trial <- step_time(trial)
-  trial
+  for(period in 2:10){
+    trial <- step_time(trial)
+  }
+  # The following should match OXDSplot(de.sim(testing=TRUE)[[10]])
+  OXDSplot(trial@data)
+
+  old.way <- de.sim(testing=TRUE)
+  stopifnot(all(trial@data == old.way[[10]]))
+  cat("New DE class has passed a regression test!\n")
+  
+  invisible(trial)
 }
