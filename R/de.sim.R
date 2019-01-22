@@ -127,6 +127,9 @@ de.sim <- function(CV=0.7, mean_mtd=1.0, start.dose=0.25, dunit="mg", dose.jump=
     if(!is.null(n.doses <- list(...)$n.doses)){
       attr(de, 'doses') <- start.dose * (1+dose.jump)^(0:(n.doses-1))
     }
+    else { # let n.doses = N/3 to avoid absent $doses attr fouling plot.de
+      attr(de, 'doses') <- start.dose * (1+dose.jump)^(0:(N/3-1))
+    }
     # To enable plotting of (unknown) 'true' MTDi distribution
     # underneath the D-S plot, we attach also a vector of quantiles:
     Q <- 50 # TODO: Try 100?

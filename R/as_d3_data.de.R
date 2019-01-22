@@ -27,7 +27,7 @@
 #' check <- jsonlite::fromJSON(data)
 #' stopifnot(
 #'   all.equal(target=list(mtd=c("id","mtd","doscale","fractol"),
-#'                         doses=character(0),
+#'                         doses=NULL,
 #'                         dunit=NULL,
 #'                         trial=c("id","period","dose","dlt"),
 #'                         mtd_quantiles=NULL,
