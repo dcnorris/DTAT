@@ -25,16 +25,11 @@
 #' data <- as_d3_data(de)
 #' ## Read 'data' back into a list and check a few things
 #' check <- jsonlite::fromJSON(data)
-#' stopifnot(
-#'   all.equal(target=list(mtd=c("id","mtd","doscale","fractol"),
-#'                         doses=NULL,
-#'                         dunit=NULL,
-#'                         trial=c("id","period","dose","dlt"),
-#'                         mtd_quantiles=NULL,
-#'                         ds=c("period","surv","lower","upper","dose")),
-#'             current=lapply(check, names)
-#'             )
-#' )
+#' stopifnot(max(abs(attr(de,'mtd') - check$mtd)) < 1e-4)
+#' stopifnot(max(abs(attr(de,'doses') - check$doses)) < 1e-4)
+#' stopifnot(max(abs(attr(de,'mtd_quantiles') - check$mtd_quantiles)) < 1e-4)
+#' stopifnot(all(last(de) - check$trial == 0))
+#' ## TODO: Add a further check on the check$ds data.frame
 #' 
 #' @importFrom r2d3 as_d3_data
 #' @export as_d3_data
