@@ -9,7 +9,12 @@
 #' the original form upon receipt using JavaScript method
 #' \code{HTMLWidgets.dataframeToD3()}. See
 #' \url{https://rstudio.github.io/r2d3/articles/data_conversion.html}.
-#' 
+#'
+#' @name as_d3_data
+## NULL below avoids duplicating 'as_d3_data' alias already in 'reexports':
+#' @aliases NULL as_d3_data.de
+## Explicit USAGE below
+#' @usage \method{as_d3_data}{de}(x, ...)
 #' @param x The 'de' object to be transformed
 #' @param \dots Unused; included to match signature of generic method
 #' @return The returned value is a JSON string corresponding to a list of data
@@ -29,11 +34,15 @@
 #' stopifnot(max(abs(attr(de,'doses') - check$doses)) < 1e-4)
 #' stopifnot(max(abs(attr(de,'mtd_quantiles') - check$mtd_quantiles)) < 1e-4)
 #' stopifnot(all(last(de) - check$trial == 0))
-#' ## TODO: Add a further check on the check$ds data.frame
+## TODO: Add a further check on the check$ds data.frame
 #' 
 #' @importFrom r2d3 as_d3_data
 #' @export as_d3_data
 #' @importFrom data.table rbindlist
+## Below, I use the deprecated 'S3method' tag because apparently
+## the co-existence of an 'as_d3_data' S4 method in this package
+## confuses roxygen2.
+#' @S3method as_d3_data de
 #' @export
 as_d3_data.de <- function(x, ...){
   # Provided a multi-period 'de' object as returned by de.sim(testing=TRUE),

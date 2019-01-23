@@ -10,6 +10,19 @@ library(methods)
 # except for the odd design decision to use attr(.,'stop.esc')
 # for remembering when certain decisions got made. A proper class
 # will use specially designated slots to hold such info!
+
+#' An S4 class for simulating dose-titration study designs
+#'
+#' @slot doses A numeric vector of prospectively-determined discrete doses to trial. 
+#' @slot MTDi A numeric vector of optimal doses for simulated study participants. 
+#' @slot data A data.frame with columns **TODO**. 
+#' @slot stop_esc integer **TODO**. 
+#' @slot ds_conf_level numeric **TODO**. 
+#' @slot dose_drop_threshold numeric **TODO**. 
+#' @slot stop_esc_under numeric **TODO**. 
+#' @slot undo_esc_under numeric **TODO**. 
+#'
+#' @export
 setClass("DE"
         , slots = c(doses = "numeric"
                    ,MTDi = "numeric"
@@ -145,6 +158,70 @@ setMethod("step_time", "DE",
       x
     })
 
+#' Convert a DE object to JSON
+#'
+#' @docType methods
+#' @param x An object of S4 class 'DE'
+#' @param \dots Unused; included to match signature of generic method
+#'
+#' @export
+setMethod("as_d3_data", "DE",
+    function(x, ...){
+      # Assemble a data list suitable for passing in r2d3(data=).
+      N <- length(x@MTDi)
+      data <- list(mtd = data.frame(id = 1:N
+                                    ,mtd = x@MTDi
+                                    ,doscale = approx(x=log(x@doses),
+                                                      y=seq(length(x@doses)),
+                                                      xout = log(x@MTDi),
+                                                      method = "linear")$y
+                                    ,fractol = rep(0.5, N) # TODO
+                                    )
+                   ,doses = x@doses
+                   ,dunit = 'TODO'
+                   ,trial = x@data
+                   ,mtd_quantiles = NULL
+                   ,ds = vector("list", max(x@data$period))
+                   )
+      # Fix up the $mtd component as a data.frame(id=,mtd=,doscale=,fractol=)
+      # (TODO ...)
+      #
+      # Fill out the $ds component
+      for(period in 1:length(data$ds)){
+        dsc <- as.data.frame(ds.curve(x@data[x@data$period <= period,]))
+        dsc$dose <- seq(nrow(dsc))
+        # TODO: Delegate the following data 'tweak'
+        #       to the visualization code, since the
+        #       need for it arises purely from
+        #       visualization considerations:
+        dsc <- dsc[c(1,1:nrow(dsc)),] # duplicate dose=1 row
+        dsc$dose[1] <- 0.5
+        data$ds[[period]] <- dsc
+      }
+
+      data$ds <- rbindlist(data$ds, idcol="period")
+      # NB: We use a *generic* transformation to JSON,
+      #     and not r2d3's special default approach
+      #     designed to reduce size of data transmitted:
+      jsonlite::toJSON(data)
+    })
+
+setMethod("plot", c("DE","missing"),
+    function(x, y, ...){
+      # TODO: Consider how to make 'viewer' explicit in the signature,
+      #       or at least communicate it in a standard way in the function
+      #       documentation.
+      r2d3::r2d3(data=as_d3_data(x),
+                 script=system.file("htmlwidgets/lib/main.js", package="DTAT"),
+                 d3_version = 4, container = "div",
+                 dependencies = system.file(paste("htmlwidgets/lib",
+                                                  c("margins.js", "exx.js",
+                                                    "ox-plot.js", "ds-plot.js"),
+                                                  sep="/"), package="DTAT"),
+                 #viewer="internal",
+                 ...)
+    })
+
 setClass("DiscreteDoseTitrationDesign"
         # Let this be a generic class for all dose-titration
         # (or -escalation as a special case!) designs established
@@ -176,6 +253,20 @@ setClass("DoseTitrationScenario"
 # Implement a test of the step_time("DE") method.
 # This should verify that we get the same result
 # as from the 'step' function.
+
+#' Temporary test of 'DE' class
+#' 
+#' TODO: Implement a 'sim.DE'-like function and a more comprehensive
+#'       suite of tests.
+#' 
+#' @param seed RNG seed
+#'
+#' @param CV Coefficient of variation of Gamma-distributed MTDi
+#' @param mean_mtd Mean of Gamma-distributed MTDi
+#' @param start.dose Lowest (starting) dose to trial
+#' @param dose.jump Proportional step between geometrically-spaced doses
+#'
+#' @export
 test.DE <- function(seed=2017, CV=0.7, mean_mtd=1.0,
                     start.dose=0.25, dose.jump=0.4){
   set.seed(seed)
