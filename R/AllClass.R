@@ -14,7 +14,14 @@ library(methods)
 #' An S4 class for simulating dose-titration study designs
 #'
 #' @slot doses A numeric vector of prospectively-determined discrete doses to trial. 
-#' @slot MTDi A numeric vector of optimal doses for simulated study participants. 
+#' @slot units A string indicating dose units, e.g. `"mg/kg"`. 
+#' @slot MTDi A numeric vector of optimal doses for simulated study participants.
+#'  Optionally a call to an `r<distribution>(...)` function which may be parsed
+#'  to calculated the `mtd_quantiles` slot. 
+#' @slot mtd_quantiles A numeric vector of quantiles of the distribution
+#'  from which the MTDi slot was simulated. Intended mainly to support
+#'  visualization of this distribution, e.g. as an transparent overlay
+#'  on the dose-survival plot. NULL in case `MTDi` is provided verbatim.
 #' @slot data A data.frame with columns **TODO**. 
 #' @slot stop_esc integer **TODO**. 
 #' @slot ds_conf_level numeric **TODO**. 
@@ -25,7 +32,9 @@ library(methods)
 #' @export
 setClass("DE"
         , slots = c(doses = "numeric"
+                   ,units = "character"
                    ,MTDi = "numeric"
+                   ,mtd_quantiles = "numeric"
                    ,data = "data.frame"  # like the former 'de[[n]]'
                    ,stop_esc = "integer" # period(s?) when escalation stops
                    ,ds_conf_level = "numeric"
@@ -40,6 +49,18 @@ setMethod("initialize", "DE",
       .Object <- callNextMethod(.Object, ...) # invoke the default method
       .Object@doses <- doses
       .Object@MTDi <- MTDi
+      # Generate an mtd_quantiles slot if possible
+      if(is.call(Q <- substitute(MTDi)) && substr(Q[[1]],1,1)=='r'){
+        Q1 <- as.character(Q[[1]])
+        substr(Q1,1,1) <- 'q'
+        Q[[1]] <- as.name(Q1)
+        Q[[2]] <- as.name(".p_")
+        env <- parent.frame(n = 3) # caller is 3 frames back!
+        assign(".p_", 1:49/50, envir = env)
+        .Object@mtd_quantiles <- eval(Q, envir = env)
+      } else {
+        .Object@mtd_quantiles <- numeric(0)
+      }
       .Object@data <- data.frame(id=integer(0),
                                  period=integer(0),
                                  dose=integer(0),
@@ -53,6 +74,11 @@ setMethod("initialize", "DE",
       .Object@dose_drop_threshold = 0.8
       .Object@stop_esc_under = 1/3
       .Object@undo_esc_under = 1/4
+      # Attach selected ... arguments as slots
+      dots <- list(...)
+      if(!is.null(dots$units)){
+        .Object@units = dots$units
+      }
       .Object
     })
 
@@ -168,24 +194,35 @@ setMethod("step_time", "DE",
 setMethod("as_d3_data", "DE",
     function(x, ...){
       # Assemble a data list suitable for passing in r2d3(data=).
-      N <- length(x@MTDi)
-      data <- list(mtd = data.frame(id = 1:N
+      #
+      # Utility function for converting 'actual' doses (expressed in mg/kg, say)
+      # to corresponding 'ordinal' doses on a logarithmically spaced scale.
+      # Log-linear interpolation is used within the range of the @doses slot,
+      # and a log-linear regression is employed to extrapolate beyond.
+      # TODO: Consider converting this to a DE method,
+      #       or even attaching it as a slot.
+      rel_dose <- function(act_dose){
+        rel <- approx(x=log(x@doses)
+                     ,y=seq(length(x@doses))
+                     ,xout=log(act_dose)
+                     ,method="linear")$y
+        dose.mult <- exp(lm(log(x@doses) ~ seq(along=x@doses))$coef[2])
+        extrapolated <- 1 + log(act_dose/x@doses[1]) / log(dose.mult)
+        where_na <- is.na(rel)
+        rel[is.na(rel)] = extrapolated[is.na(rel)]
+        rel
+      }
+      data <- list(mtd = data.frame(id = seq_along(x@MTDi)
                                     ,mtd = x@MTDi
-                                    ,doscale = approx(x=log(x@doses),
-                                                      y=seq(length(x@doses)),
-                                                      xout = log(x@MTDi),
-                                                      method = "linear")$y
-                                    ,fractol = rep(0.5, N) # TODO
+                                    ,doscale = rel_dose(x@MTDi)
+                                    ,fractol = rep(0.5, length(x@MTDi))
                                     )
                    ,doses = x@doses
-                   ,dunit = 'TODO'
+                   ,dunit = x@units
                    ,trial = x@data
-                   ,mtd_quantiles = NULL
+                   ,mtd_quantiles = rel_dose(x@mtd_quantiles)
                    ,ds = vector("list", max(x@data$period))
                    )
-      # Fix up the $mtd component as a data.frame(id=,mtd=,doscale=,fractol=)
-      # (TODO ...)
-      #
       # Fill out the $ds component
       for(period in 1:length(data$ds)){
         dsc <- as.data.frame(ds.curve(x@data[x@data$period <= period,]))
@@ -274,8 +311,10 @@ test.DE <- function(seed=2017, CV=0.7, mean_mtd=1.0,
   shape <- CV^-2
   scale <- mean_mtd/shape # for Gamma dist, mean = shape*scale = alpha/beta
   N <- 24
-  mtd <- rgamma(N, shape=shape, scale=scale)
-  trial <- new("DE", doses=0.25*1.4^(0:6), MTDi=mtd)
+  #mtd <- rgamma(N, shape=shape, scale=scale)
+  trial <- new("DE", doses=0.25*1.4^(0:6),
+               MTDi=rgamma(N, shape=shape, scale=scale),
+               units="mg/kg")
   for(period in 2:10){
     trial <- step_time(trial)
   }
