@@ -5,6 +5,7 @@ const protoOXplot = {
   doses: data.doses,
   dunit: data.dunit,
   mtds: data.mtd,
+  stop_esc: data.stop_esc,
   Npts: data.mtd.length,
   Nperiods: data.mtd.length/3 + 2,
 };
@@ -137,7 +138,7 @@ function renderOXplot(opts) {
       .attr('x1', d => x(d.x))
       .attr('x2', d => x(d.x))
       .attr('y1', y(1))
-      .attr('y2', y(7))
+      .attr('y2', y(oxPlot.doses.length))
       // Use mouseover/out to intimate that period lines are clickable
       .on('mouseover', d => { mouseoverPeriodEnd(d.per); })
       .on('mouseout', d => { mouseoutPeriodEnd(d.per); })
@@ -149,12 +150,35 @@ function renderOXplot(opts) {
           oxPlot.svg.selectAll('.dosemarker')
             .filter(e => +e.per > d.per)
             .style('stroke-opacity', 0.2);
+          // Dim any 'future' stop_esc line to avoid
+          // false suggestion it was pre-planned: 
+          oxPlot.svg.selectAll('.stop-esc')
+            .filter(e => +e.per <= d.per)
+            .style('stroke-opacity', 1.0);
+          oxPlot.svg.selectAll('.stop-esc')
+            .filter(e => +e.per > d.per)
+            .style('stroke-opacity', 0.3);
           // Select (upper, surv, lower) for the clicked period
           dsPlot.svg.selectAll('.ds-line path')
             .style('visibility','hidden');
           dsPlot.svg.selectAll('.ds-line path[period="'+d.per+'"]')
             .style('visibility','visible');
       });
+
+  // Draw the stop_esc indicator(s), of which there may be 0, 1 or several.
+  // Initially, I employ the same dashed-line period divider overlay as in
+  // the original OXplot based on lattice graphics.
+  // TODO: Consider a (more intuitive?) horizontal escalation 'barrier'.
+  const esc_stops = (oxPlot.stop_esc).map(i => ({x:(3.5 + 3*i), per:(i+1)}));
+  oxPlot.svg.append('g').selectAll('.stop-esc')
+      .data(esc_stops)
+    .enter().append('line')
+      .attr('class','stop-esc')
+      .attr('period', d => d.per)
+      .attr('x1', d => x(d.x))
+      .attr('x2', d => x(d.x))
+      .attr('y1', y(1))
+      .attr('y2', y(oxPlot.doses.length));
 
   const showSeries = function(pid) {
     oxPlot.svg.select('g.axis').selectAll('g.tick')

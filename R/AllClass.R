@@ -220,6 +220,7 @@ setMethod("as_d3_data", "DE",
                    ,doses = x@doses
                    ,dunit = x@units
                    ,trial = x@data
+                   ,stop_esc = x@stop_esc
                    ,mtd_quantiles = rel_dose(x@mtd_quantiles)
                    ,ds = vector("list", max(x@data$period))
                    )

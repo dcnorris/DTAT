@@ -67,6 +67,13 @@ svg {
     stroke-opacity: 1.0;
 }
 
+.stop-esc {
+    stroke: black;
+    stroke-dasharray: 5,3;
+    stroke-opacity: 1;
+    stroke-width: 1.0;
+}
+
 .period-end {
     stroke: black;
     stroke-opacity: 0.15;
