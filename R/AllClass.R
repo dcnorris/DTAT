@@ -190,6 +190,7 @@ setMethod("step_time", "DE",
 #' @param x An object of S4 class 'DE'
 #' @param \dots Unused; included to match signature of generic method
 #'
+#' @importFrom stats lm
 #' @export
 setMethod("as_d3_data", "DE",
     function(x, ...){
@@ -206,7 +207,7 @@ setMethod("as_d3_data", "DE",
                      ,y=seq(length(x@doses))
                      ,xout=log(act_dose)
                      ,method="linear")$y
-        dose.mult <- exp(lm(log(x@doses) ~ seq(along=x@doses))$coef[2])
+        dose.mult <- exp(stats::lm(log(x@doses) ~ seq(along=x@doses))$coef[2])
         extrapolated <- 1 + log(act_dose/x@doses[1]) / log(dose.mult)
         where_na <- is.na(rel)
         rel[is.na(rel)] = extrapolated[is.na(rel)]
