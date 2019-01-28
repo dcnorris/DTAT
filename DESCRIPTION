@@ -18,15 +18,15 @@ Imports: km.ci,
          zipfR,
          RColorBrewer,
          data.table,
-         htmlwidgets,
          r2d3,
          jsonlite,
          methods
-Suggests: rms, tidyr, latticeExtra, animation
+Suggests: rms, tidyr, latticeExtra, animation, knitr, rmarkdown
 Description: Early versions of this package are intended primarily to ensure the
              reproducibility of my research on Dose Titration Algorithm Tuning.
 URL: https://osf.io/5479p/
 License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
+VignetteBuilder: knitr
 Encoding: UTF-8

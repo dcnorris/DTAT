@@ -1,0 +1,88 @@
+---
+title: "Designing a 3+3/PC trial"
+author: "David C. Norris"
+date: "1/28/2019"
+output: rmarkdown::html_vignette
+vignette: <
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{3+3/PC}
+bibliography: DTAT-package.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(lattice)
+```
+
+## Precautionary Coherence and the '3+3/PC' Design
+
+Perhaps you had been planning to conduct a phase 1 dose-finding trial using a dose-escalation design built upon any of the usual, one-size-fits-all methods such as the 3+3, CRM, EWOC, mTPI, BOIN, etc. But then somehow you stumbled upon [@norris_precautionary_2017], and learned:
+
+* that dose-escalation designs are fundamentally unethical,
+* that one-size-fits-all dosing is wasteful---see also [@norris_costing_2017],
+* and a few modifications can convert the inveterate '3+3' dose-*escalation* design into an efficient '3+3/PC' dose-**titration** design that outperforms even the fancy 'model-based' methods.
+
+In that case ... **this vignette is for you.** Here, we will work stepwise through the process of developing a 3+3/PC design, and simulating its performance under various scenarios.
+
+## Optimal-Dose Heterogeneity
+
+Your first step in designing a dose-finding trial should be to articulate your expectations regarding the *heterogeneity* of optimal dosing in your patient population. In what follows, I'll assume we're working under a *maximum tolerated dose* (MTD) heuristic, so that we denote the optimal dose for individual *i* as MTD~i~ [@norris_dose_2017]. Formally, the most straightforward way to describe MTD~i~ heterogeneity is with a *distribution*:
+
+```{r, fig.cap="A postulated distribution of MTD~i~."}
+# It might be easiest to think in terms of CV and median:
+CV <- 0.7    # coefficient of variation of MTDi
+MTDi50 <- 75 # median MTDi (i.e., 50th percentile)
+# Calculate the shape and scale parameters of a Gamma distribution
+# that would exhibit the posited CV and median:
+shape <- CV^-2
+scale <- MTDi50/qgamma(0.5, shape=CV^-2)
+# Plot:
+MTDi <- 0:200
+dens <- dgamma(MTDi, shape=shape, scale=scale)
+xyplot(dens ~ MTDi, type = "l"
+       , xlab = expression(MTD[i]*' [mg/kg]')
+       , ylab = "density")
+```
+
+A *density* as plotted above has a natural intuitive appeal, in part because it shows clearly the [central tendency](https://en.wikipedia.org/wiki/Central_tendency) of the distribution, as well as the rare individuals in the 'tails'. But a more directly useful graphic is the corresponding *cumulative distribution*:
+
+```{r, fig.cap="A postulated cumulative distribution of MTD~i~."}
+F <- pgamma(MTDi, shape=shape, scale=scale)
+xyplot(F ~ MTDi, type = "l"
+       , xlab = expression(MTD[i]*' [mg/kg]')
+       , ylab = "Cumulative Distribution"
+       , panel = function(...){
+         panel.xyplot(...)
+         panel.refline(h=0.5)
+         panel.refline(v=MTDi50)
+       })
+```
+
+Notice that the crosshairs let you read off the median MTD~i~ of 75 mg/kg we had posited. Before moving on, let me introduce one final modification to this cumulative distribution, which should look familiar to the oncology trialist:
+
+```{r, fig.cap="The 'dose-survival curve' implied by the posited distribution of MTD~i~."}
+F <- pgamma(MTDi, shape=shape, scale=scale)
+xyplot((1-F) ~ MTDi, type = "l"
+       , xlab = "Dose [mg/kg]"
+       , ylab = "Fraction Tolerant"
+       , panel = function(...){
+         panel.xyplot(...)
+         panel.refline(h=0.5)
+         panel.refline(v=MTDi50)
+       })
+```
+
+From this curve, you can read off the fraction of your patient population that you anticipate will be able to tolerate any given dose. At the left-hand side of the plot, you have low doses that most patients tolerate. As you move to the right (increasing the dose), fewer patients will be able to tolerate it. For obvious reasons, [@norris_precautionary_2017] calls this a 'dose-survival curve'.
+
+## PC Rules
+
+TODO: Give a quick review of the PC rules, but refer readers to the PC paper for details. In this section, it makes sense to decide what doses to try. Also give some indication about the origin [@simon_accelerated_1997] of the 40% rule.
+
+## Parameters of a 3+3/PC Trial
+
+TODO: Introduce the `DE` object, and its parameters.
+
+## Simulating your 3+3/PC Trial
+
+## References
+
