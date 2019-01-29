@@ -9,7 +9,7 @@ vignette: <
 bibliography: DTAT-package.bib
 ---
 
-```{r setup, include=FALSE, fig.cap="Hope!"}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 # Notwithstanding the advice offered in the package:htmlwidgets docs (see link),
 # setting self_contained = TRUE (**) proved necessary for embedding the D3 viz.
@@ -102,7 +102,7 @@ viz <- r2d3::r2d3(data=as_d3_data(x),
                                                    c("margins.js", "exx.js",
                                                      "ox-plot.js", "ds-plot.js"),
                                                    sep="/"), package="DTAT"))
-frameWidget(viz)
+frameWidget(viz, height='350')
 ```
 
 

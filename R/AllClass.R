@@ -320,8 +320,6 @@ test.DE <- function(seed=2017, CV=0.7, mean_mtd=1.0,
   for(period in 2:10){
     trial <- step_time(trial)
   }
-  # The following should match OXDSplot(de.sim(testing=TRUE)[[10]])
-  OXDSplot(trial@data)
 
   old.way <- de.sim(testing=TRUE)
   stopifnot(all(trial@data == old.way[[10]]))
