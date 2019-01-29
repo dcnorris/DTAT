@@ -10,7 +10,7 @@
 #' \donttest{
 #' runApp("Sim33PC")
 #' }
-runApp <- function(app) {
+runDTATapp <- function(app) {
   # locate all the shiny apps distributed with package:DTAT
   validApps <- list.files(system.file("shiny-apps", package = "DTAT"))
   
@@ -24,7 +24,7 @@ runApp <- function(app) {
   if (missing(app) || !nzchar(app) ||
       !app %in% validApps) {
     stop(
-      'Please run `runApp()` with a valid app name as an argument.\n',
+      'Please call `runDTATapp()` with one of these DTAT app names as an argument:\n',
       validAppsMsg,
       call. = FALSE)
   }
