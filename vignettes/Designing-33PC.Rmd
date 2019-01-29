@@ -9,9 +9,17 @@ vignette: <
 bibliography: DTAT-package.bib
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, fig.cap="Hope!"}
 knitr::opts_chunk$set(echo = TRUE)
-library(lattice)
+# Notwithstanding the advice offered in the package:htmlwidgets docs (see link),
+# setting self_contained = TRUE (**) proved necessary for embedding the D3 viz.
+# https://cran.r-project.org/web/packages/widgetframe/vignettes/widgetframe_and_knitr.html 
+knitr::opts_chunk$set(widgetframe_self_contained = TRUE)  # **
+knitr::opts_chunk$set(widgetframe_isolate_widgets = TRUE) # default = TRUE
+
+library(r2d3)
+library(widgetframe)
+library(DTAT)
 ```
 
 ## Precautionary Coherence and the '3+3/PC' Design
@@ -29,7 +37,7 @@ In that case ... **this vignette is for you.** Here, we will work stepwise throu
 Your first step in designing a dose-finding trial should be to articulate your expectations regarding the *heterogeneity* of optimal dosing in your patient population. In what follows, I'll assume we're working under a *maximum tolerated dose* (MTD) heuristic, so that we denote the optimal dose for individual *i* as MTD~i~ [@norris_dose_2017]. Formally, the most straightforward way to describe MTD~i~ heterogeneity is with a *distribution*:
 
 ```{r, fig.cap="A postulated distribution of MTD~i~."}
-# It might be easiest to think in terms of CV and median:
+# You might find it easiest to think in terms of CV and median:
 CV <- 0.7    # coefficient of variation of MTDi
 MTDi50 <- 75 # median MTDi (i.e., 50th percentile)
 # Calculate the shape and scale parameters of a Gamma distribution
@@ -44,7 +52,7 @@ xyplot(dens ~ MTDi, type = "l"
        , ylab = "density")
 ```
 
-A *density* as plotted above has a natural intuitive appeal, in part because it shows clearly the [central tendency](https://en.wikipedia.org/wiki/Central_tendency) of the distribution, as well as the rare individuals in the 'tails'. But a more directly useful graphic is the corresponding *cumulative distribution*:
+A *density* as plotted above has a natural intuitive appeal, in part because it shows clearly the [central tendency](https://en.wikipedia.org/wiki/Central_tendency) of the distribution, as well as the rare individuals in the 'tails'. (To appreciate what motivates the particular choice of the [Gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution) here, please see [@norris_costing_2017].) More directly useful than this density, however, is the corresponding *cumulative distribution*:
 
 ```{r, fig.cap="A postulated cumulative distribution of MTD~i~."}
 F <- pgamma(MTDi, shape=shape, scale=scale)
@@ -64,12 +72,7 @@ Notice that the crosshairs let you read off the median MTD~i~ of 75 mg/kg we had
 F <- pgamma(MTDi, shape=shape, scale=scale)
 xyplot((1-F) ~ MTDi, type = "l"
        , xlab = "Dose [mg/kg]"
-       , ylab = "Fraction Tolerant"
-       , panel = function(...){
-         panel.xyplot(...)
-         panel.refline(h=0.5)
-         panel.refline(v=MTDi50)
-       })
+       , ylab = "Fraction Tolerant")
 ```
 
 From this curve, you can read off the fraction of your patient population that you anticipate will be able to tolerate any given dose. At the left-hand side of the plot, you have low doses that most patients tolerate. As you move to the right (increasing the dose), fewer patients will be able to tolerate it. For obvious reasons, [@norris_precautionary_2017] calls this a 'dose-survival curve'.
@@ -83,6 +86,25 @@ TODO: Give a quick review of the PC rules, but refer readers to the PC paper for
 TODO: Introduce the `DE` object, and its parameters.
 
 ## Simulating your 3+3/PC Trial
+
+Wouldn't it be nice, if the 3+3/PC simulation automatically embedded easily in the HTML vignette?
+
+```{r fig.show=FALSE}
+# TODO: Drop this code in preference for simulating our actual case study.
+x <- test.DE()
+```
+
+```{r trial-realization, echo=FALSE, fig.height=5}
+viz <- r2d3::r2d3(data=as_d3_data(x),
+                  script=system.file("htmlwidgets/lib/main.js", package="DTAT"),
+                  d3_version = 4, container = "div",
+                  dependencies = system.file(paste("htmlwidgets/lib",
+                                                   c("margins.js", "exx.js",
+                                                     "ox-plot.js", "ds-plot.js"),
+                                                   sep="/"), package="DTAT"))
+frameWidget(viz)
+```
+
 
 ## References
 
