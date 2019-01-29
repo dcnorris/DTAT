@@ -12,7 +12,8 @@ Depends: R (>= 3.4.0),
          pomp (>= 1.12),
          Hmisc (>= 4.0.3),
          lattice,
-         survival
+         survival,
+         shiny
 Imports: km.ci,
          zipfR,
          RColorBrewer,
