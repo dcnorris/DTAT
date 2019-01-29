@@ -33,7 +33,7 @@
 #' stopifnot(max(abs(attr(de,'mtd') - check$mtd)) < 1e-4)
 #' stopifnot(max(abs(attr(de,'doses') - check$doses)) < 1e-4)
 #' stopifnot(max(abs(attr(de,'mtd_quantiles') - check$mtd_quantiles)) < 1e-4)
-#' stopifnot(all(last(de) - check$trial == 0))
+#' stopifnot(all(de[[length(de)]] - check$trial == 0))
 ## TODO: Add a further check on the check$ds data.frame
 #' 
 #' @importFrom r2d3 as_d3_data

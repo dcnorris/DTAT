@@ -96,7 +96,6 @@ NULL
 #' @import lattice
 #' @importFrom pomp pomp euler.sim rprior trajectory Csnippet
 #' @import survival
-#' @import dplyr
 #' @import methods
 NULL
 

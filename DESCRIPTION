@@ -12,13 +12,14 @@ Depends: R (>= 3.4.0),
          pomp (>= 1.12),
          Hmisc (>= 4.0.3),
          lattice,
-         survival,
-         dplyr
+         survival
 Imports: km.ci,
          zipfR,
          RColorBrewer,
          data.table,
+         dplyr,
          r2d3,
+         widgetframe,
          jsonlite,
          methods
 Suggests: rms, tidyr, latticeExtra, animation, knitr, rmarkdown

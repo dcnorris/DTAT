@@ -26,6 +26,7 @@
 #' saveVideo(OXDSanimate(de)) # produces file "animation.mp4"
 #' }
 #' 
+#' @importFrom dplyr last
 #' @export
 OXDSanimate <- function(de){
   periods <- max(last(de)$period)

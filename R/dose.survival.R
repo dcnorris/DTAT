@@ -13,20 +13,21 @@
 #' @seealso \code{\link{dose.survfit}}
 #' @keywords survival
 #' @importFrom stats aggregate
+#' @importFrom dplyr full_join arrange
 #' @export
 dose.survival <- function(de){
   suppressMessages({
-    L <- aggregate(dose ~ id, data=de, FUN=max, subset=!de$dlt)
+    L <- stats::aggregate(dose ~ id, data=de, FUN=max, subset=!de$dlt)
     names(L)[2] <- 'doseL'
     suppressWarnings({ # expect min() to yield Inf often below
-      R <- aggregate(dose ~ id, data=de, FUN=min, subset=de$dlt)
+      R <- stats::aggregate(dose ~ id, data=de, FUN=min, subset=de$dlt)
       names(R)[2] <- 'doseR'
     })
-    ds <- full_join(L, R)
+    ds <- dplyr::full_join(L, R)
   })
   ds$doseL[is.na(ds$doseL)] <- 0
   ds$doseR[is.na(ds$doseR)] <- Inf
-  ds <- arrange(ds, id)
+  ds <- dplyr::arrange(ds, id)
   # Compute the Surv object from ds data frame with cols (id, doseL, doseR)
   S <- with(ds, Surv(time=doseL, time2=doseR, type='interval2'))
   S

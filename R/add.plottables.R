@@ -13,6 +13,7 @@
 #' @author David C. Norris
 #' @seealso \code{\link{OXplot}}
 #' @keywords hplot
+#' @importFrom Hmisc upData
 #' @export
 add.plottables <- function(de, tox.pending=FALSE){
   de <- upData(de
