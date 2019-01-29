@@ -13,7 +13,7 @@
 #' @seealso \code{\link{dose.survfit}}
 #' @keywords survival
 #' @importFrom stats aggregate
-#' @importFrom dplyr full_join arrange
+#' @importFrom dplyr full_join
 #' @export
 dose.survival <- function(de){
   suppressMessages({
@@ -27,7 +27,7 @@ dose.survival <- function(de){
   })
   ds$doseL[is.na(ds$doseL)] <- 0
   ds$doseR[is.na(ds$doseR)] <- Inf
-  ds <- dplyr::arrange(ds, id)
+  ds <- ds[order(ds$id),]
   # Compute the Surv object from ds data frame with cols (id, doseL, doseR)
   S <- with(ds, Surv(time=doseL, time2=doseR, type='interval2'))
   S
