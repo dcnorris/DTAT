@@ -51,6 +51,7 @@ as_d3_data.de <- function(x, ...){
                doses = attr(x,'doses'),
                dunit = attr(x,'dunit'),
                trial = x[[length(x)]],
+               stop_esc = attr(x[[length(x)]],'stop.esc'),
                mtd_quantiles = attr(x,'mtd_quantiles'),
                ds = lapply(x, function(x){
                  dsc <- as.data.frame(ds.curve(x))

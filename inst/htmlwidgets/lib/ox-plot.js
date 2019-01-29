@@ -169,7 +169,8 @@ function renderOXplot(opts) {
   // Initially, I employ the same dashed-line period divider overlay as in
   // the original OXplot based on lattice graphics.
   // TODO: Consider a (more intuitive?) horizontal escalation 'barrier'.
-  const esc_stops = (oxPlot.stop_esc).map(i => ({x:(3.5 + 3*i), per:(i+1)}));
+  if(Object.keys(oxPlot.stop_esc).length === 0) oxPlot.stop_esc = [];
+  const esc_stops = (oxPlot.stop_esc).map(i => ({x:(0.5 + 3*i), per:i}));
   oxPlot.svg.append('g').selectAll('.stop-esc')
       .data(esc_stops)
     .enter().append('line')
