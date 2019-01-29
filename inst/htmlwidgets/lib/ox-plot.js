@@ -84,7 +84,11 @@ function renderOXplot(opts) {
     //       of having these available through -data-.
     const mtd = function(id){
       const mtd_i = oxPlot.mtds.filter(d => d.id == id)[0].mtd;
+<<<<<<< HEAD
       return d3.format('.3f')(mtd_i);
+=======
+      return d3.format('.3f')(mtd_i); // + ' ' + oxPlot.dunit;
+>>>>>>> 53f96a81015b485366b8a5173d768be8adb844ed
     };
     oxPlot.svg.selectAll('.axis.participant .tick text')
         .on('mouseover', d => {
